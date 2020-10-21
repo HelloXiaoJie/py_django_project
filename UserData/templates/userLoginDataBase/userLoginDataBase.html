@@ -1,0 +1,32 @@
+{% load static %}
+{% load customFilter %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="icon" href="{% static 'publicfiles/images/20201004123735580_easyicon_net_16.ico' %}" type="image/x-icon">
+    {% block externalFiles %}{% endblock %}
+</head>
+<body>
+{% block head %}
+
+{% endblock %}
+
+<div class="modificationUserBackground"></div>
+<div class="UserBody">
+    <input type="hidden" value="{{ csrf_token }}" name="csrfmiddlewaretoken">
+    {#    居中内容#}
+    <div class="contentBody">
+        {#        选择信息#}
+        {% block selectData %}
+
+        {% endblock %}
+        {#        需要修改的数据#}
+        {% block modificationData %}
+
+        {% endblock %}
+    </div>
+</div>
+</body>
+</html>

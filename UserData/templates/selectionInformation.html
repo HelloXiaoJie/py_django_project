@@ -1,0 +1,28 @@
+{#        选择信息#}
+<div class="selectMessage">
+    {#            账号设置#}
+    <div class="AccountSettingstext">
+        <div class="setImage"></div>
+        <span>账号设置</span>
+    </div>
+    <div class="dataModification">
+        <a href="#">
+            <div class="InformationStyleBackgroundResident">
+                <div class="pitchRightImageResident"></div>
+                <span style="color: black">账号信息</span>
+            </div>
+        </a>
+        <a href="{% url 'user:myInformation' %}">
+            <div class="InformationStyle">
+                <div class="pitchDotImage"></div>
+                <span>我的信息</span>
+            </div>
+        </a>
+        <a href="{% url 'user:myProfile' %}">
+            <div class="InformationStyle">
+                <div class="pitchDotImage"></div>
+                <span>头像设置</span>
+            </div>
+        </a>
+    </div>
+</div>

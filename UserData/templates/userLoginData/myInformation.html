@@ -1,0 +1,69 @@
+{% extends 'userLoginDataBase/userLoginDataBase.html' %}
+{% load static %}
+{% load customFilter %}
+
+{% block externalFiles %}
+    <link href="{% static 'UserDataStatics/css/UserData.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'indexStatics/css/index.css' %}">
+    <script src="{% static 'publicfiles/js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'UserDataStatics/js/UserData.js' %}"></script>
+{% endblock %}
+
+{% block head %}
+    {% include 'head_template/head.html' %}
+{% endblock %}
+
+{% block selectData %}
+    {#        选择信息#}
+    <div class="selectMessage">
+        {#            账号设置#}
+        <div class="AccountSettingstext">
+            <div class="setImage"></div>
+            <span>账号设置</span>
+        </div>
+        <div class="dataModification">
+            <a href="{% url 'user:accountInformation' %}">
+                <div class="InformationStyle">
+                    <div class="pitchDotImage"></div>
+                    <span>账号信息</span>
+                </div>
+            </a>
+            <a href="#">
+                <div class="InformationStyleBackgroundResident">
+                    <div class="pitchRightImageResident"></div>
+                    <span style="color: black">我的信息</span>
+                </div>
+            </a>
+            <a href="{% url 'user:myProfile' %}">
+                <div class="InformationStyle">
+                    <div class="pitchDotImage"></div>
+                    <span>头像设置</span>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block modificationData %}
+    {#        需要修改的数据#}
+    <div class="messagedatas">
+        {#            修改边框#}
+        <div class="modificationBorder">
+            {#            昵称#}
+            <div class="nickname">
+                <span>昵称</span>
+                <input type="text" value="{{ user_datas.username }}" name="modificationBorder_nickname">
+            </div>
+            <div class="nameErrorText" style="color: red"></div>
+            {#            个性签名#}
+            <div class="personalizedContext">
+                <span>个性签名</span>
+                <textarea>{{ UserDataContext.signatureText }}</textarea>
+            </div>
+            {#            提交#}
+            <div class="Info">
+                提 交
+            </div>
+        </div>
+    </div>
+{% endblock %}

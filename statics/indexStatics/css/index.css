@@ -1,0 +1,338 @@
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: azure;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+body {
+    background-color: #f4f4f4;
+}
+
+/*最顶部*/
+.TopHead {
+    width: 100%;
+    height: 50px;
+    background-color: #008cff;
+    /*border: 1px solid black;*/
+}
+
+.TopHead .centerContext {
+    width: 1000px;
+    height: 100%;
+    /*border: 1px solid black;*/
+    margin: auto;
+}
+
+.TopHead .centerContext .leftContext {
+    display: inline-block;
+    height: 100%;
+    font-size: 30px;
+    color: gray;
+    line-height: 50px;
+}
+
+.TopHead .centerContext .rightContext {
+    position: relative;
+    display: inline-block;
+    width: 340px;
+    height: 100%;
+    line-height: 50px;
+    float: right;
+    /*border: 1px solid black;*/
+}
+
+.TopHead .centerContext .rightContext > div {
+    display: inline-block;
+    height: 100%;
+    line-height: 50px;
+    margin-left: 20px;
+    float: left;
+}
+
+/*Head*/
+.Head {
+    width: 100%;
+    height: 130px;
+    background-color: #ffffff;
+}
+
+.Head .centerHead {
+    width: 1000px;
+    height: 100%;
+    margin: auto;
+    /*border: 1px solid black;*/
+    line-height: 130px;
+}
+
+.Head .centerHead .imageLogo {
+    display: inline-block;
+    float: left;
+    height: 130px;
+}
+
+.Head .centerHead .search {
+    display: inline-block;
+    width: 460px;
+    height: 45px;
+    border: 1px solid black;
+    float: right;
+    margin-right: 40px;
+    transform: translate(0, calc(130px / 2 - 50%));
+}
+
+.Head .centerHead .search > input {
+    display: inline-block;
+    float: left;
+    width: 385px;
+    height: 45px;
+    padding-left: 20px;
+    font-size: 20px;
+    /*border: 1px solid black;*/
+}
+
+.Head .centerHead .search > input:focus {
+    border: none;
+    outline: none;
+}
+
+.Head .centerHead .search > button {
+    display: inline-block;
+    float: right;
+    width: 55px;
+    height: 45px;
+    background-image: url("../images/搜索.png");
+    background-repeat: no-repeat;
+    background-position: 13px 8px;
+}
+
+.Head .centerHead .search > button:focus {
+    border: none;
+    outline: none;
+}
+
+.Head .centerHead .search > button:hover {
+    cursor: pointer;
+    background-image: url("../images/搜索 (1).png");
+}
+
+/*Body*/
+.Body {
+    margin-top: 15px;
+    width: 100%;
+    height: 1000px;
+    /*border: 1px solid black;*/
+}
+
+.Body .BodyConter {
+    width: 1000px;
+    height: 100%;
+    /*border: 1px solid black;*/
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+.Body .BodyConter .tags {
+    position: relative;
+    width: 230px;
+    height: 450px;
+    /*border: 1px solid black;*/
+    float: left;
+    background-color: #ffffff;
+}
+
+.Body .BodyConter .tags .border > ul > li > div {
+    width: 180px;
+    height: 40px;
+    /*border: 1px solid black;*/
+    line-height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Body .BodyConter .tags .border > ul > li:hover {
+    background-color: silver;
+}
+
+/*tag详情信息*/
+.particulars_data {
+    /*display: inline-block;*/
+    width: 580px;
+    height: 450px;
+    /*border: 1px solid black;*/
+    position: absolute;
+    top: 0;
+    left: 230px;
+    display: none;
+    box-shadow: 5px 5px 5px #888888;
+    background-color: #ffffff;
+    padding-left: 10px;
+    padding-top: 10px;
+    /*border-left: 1px solid black;*/
+    z-index: 2;
+}
+
+/*轮播图*/
+.slideshow_images {
+    position: relative;
+    width: 750px;
+    height: 400px;
+    /*border: 1px solid;*/
+    float: right;
+    overflow: hidden;
+}
+
+.slideshow_images .images > img {
+    float: left;
+}
+
+.slideshow_images .images {
+    left: 0;
+    position: absolute;
+    width: 2250px;
+    height: 400px;
+    /*border: 1px solid;*/
+    float: left;
+}
+
+/*广告*/
+.Body .BodyConter .advertising {
+    width: 750px;
+    height: 40px;
+    /*border: 1px solid;*/
+    position: absolute;
+    top: 410px;
+    left: 250px;
+    background-image: url("../../indexStatics/images/20201003212708.png");
+    background-position: 21px 46px;
+}
+
+/*列出所有商品*/
+.Body .BodyConter .all_commodity {
+    width: 1000px;
+    height: 500px;
+    /*border: 1px solid;*/
+    position: absolute;
+    background-color: #ffffff;
+    top: 460px;
+}
+
+.Body .BodyConter .all_commodity .commodity_style_window {
+    width: 200px;
+    height: 270px;
+    /*border: 1px solid;*/
+    display: inline-block;
+}
+
+.Body .BodyConter .all_commodity .commodity_style_window .commodity_image {
+    width: 200px;
+    height: 200px;
+    /*border: 1px solid black;*/
+    display: inline-block;
+}
+
+.Body .BodyConter .all_commodity .commodity_style_window .commodity_image > img {
+    transform: translate(40px, 40px);
+}
+
+.commodity_message {
+    color: black;
+    padding-left: 10px;
+}
+
+.price_style {
+    color: #e1251b;
+    font-size: 20px;
+    padding-left: 5px;
+}
+
+.Body .BodyConter .all_commodity > a {
+    /*border: 1px solid brown;*/
+    display: inline-block;
+}
+
+/*用户操作*/
+.loginOperation {
+    /*display: inline-block;*/
+    width: 100px;
+    height: 100px;
+    background-color: azure;
+    position: absolute;
+    top: 50px;
+    left: 65px;
+    z-index: 1;
+    display: none;
+}
+
+.loginOperation > span {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+/*头像*/
+.UserProfile {
+    /*border: 1px solid;*/
+    width: 50px;
+    height: 100%;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.modificationPortrait {
+    position: relative;
+}
+
+.modificationPortrait > img {
+    border-radius: 5px;
+}
+
+.modificationPortrait .fileData {
+    width: 130px;
+    height: 50px;
+    border: 1px solid #888888;
+    display: inline-block;
+    line-height: 50px;
+    text-align: center;
+    background-color: #f8f8f8;
+    /*background-color: #ccc;*/
+    position: absolute;
+    border-radius: 4px;
+    top: 50px;
+    left: 190px;
+    cursor: pointer;
+    z-index: 111;
+}
+
+.fileData > span {
+    cursor: pointer;
+    font-size: 17px;
+    color: #444;
+}
+
+.fileData > input {
+    width: 130px;
+    height: 50px;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.modificationPortrait > span {
+    position: absolute;
+    top: 65px;
+    left: 340px;
+    color: #999;
+}

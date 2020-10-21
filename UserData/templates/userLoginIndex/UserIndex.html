@@ -1,0 +1,12 @@
+{% extends 'userLoginBase/userLoginBase.html' %}
+{% load static %}
+
+{% block externalFiles %}
+    <link rel="stylesheet" href="{% static 'UserDataStatics/css/loginstyle.css' %}">
+    <script src="{% static 'publicfiles/js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'UserDataStatics/js/login.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    {% include 'loginSubject.html' %}
+{% endblock %}

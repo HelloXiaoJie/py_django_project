@@ -1,0 +1,21 @@
+{% extends 'userLoginDataBase/userLoginDataBase.html' %}
+{% load static %}
+
+{% block externalFiles %}
+    <link rel="stylesheet" href="{% static 'indexStatics/css/index.css' %}">
+    <link href="{% static 'UserDataStatics/css/UserData.css' %}" rel="stylesheet">
+    <script src="{% static 'publicfiles/js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'UserDataStatics/js/UserData.js' %}"></script>
+{% endblock %}
+
+{% block head %}
+    {% include 'head_template/head.html' %}
+{% endblock %}
+
+{% block selectData %}
+    {% include 'selectionInformation.html' %}
+{% endblock %}
+
+{% block modificationData %}
+    {% include 'modifyData.html' %}
+{% endblock %}
