@@ -21,7 +21,7 @@
             <span>账号设置</span>
         </div>
         <div class="dataModification">
-            <a href="#">
+            <a href="{% url 'user:accountInformation' %}">
                 <div class="InformationStyle">
                     <div class="pitchDotImage"></div>
                     <span>账号信息</span>
@@ -33,7 +33,7 @@
                     <span>我的信息</span>
                 </div>
             </a>
-            <a href="{% url 'user:myProfile' %}">
+            <a href="#">
                 <div class="InformationStyleBackgroundResident">
                     <div class="pitchRightImageResident"></div>
                     <span style="color: black">头像设置</span>
@@ -49,11 +49,12 @@
         {#            修改边框#}
         <div class="modificationBorder">
             <div class="modificationPortrait">
-                <img src="{{ UserImage.url }}" alt="" width="150" height="150">
+                <img src="{{ MEDIA_URL }}{{ user_content.userdatamodelscontext__portraitImage }}" alt="" width="150" height="150">
                 <form id="qwe">
                     <div class="fileData">
                         <span>选择头像</span>
-                        <input type="file" name="image">
+                        <div class="imageError" style="color: red;"></div>
+                        <input type="file" name="image" accept="image/jpg, imgae/png" required>
                     </div>
                 </form>
                 <span>支持 JPG、PNG 格式，不要超过 2M </span>

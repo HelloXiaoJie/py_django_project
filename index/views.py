@@ -1,12 +1,10 @@
 from django.shortcuts import render
+from UserData.models import UserDataModels
 
 
 # 首页
 def index(request):
-    content = {
-        'user_datas': request.user_datas
-    }
-    return render(request, 'index/index.html', context=content)
+    return render(request, 'index/index.html', )
 
 
 def index1(request):

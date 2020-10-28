@@ -6,8 +6,8 @@ from . import formdata
 from django.shortcuts import redirect, reverse
 from customDecorator.CheckTheLogin import examineLogin
 from django.views.decorators.csrf import csrf_exempt
+from publicInstrument.suffix_examine import suffix_check
 from django.conf import settings
-import os
 
 
 # Create your views here.
@@ -20,35 +20,24 @@ def User_data(request):
 def User_register_data(request):
     datas = formdata.userRegisterForm(request.POST)
     if datas.is_valid():
-        username = datas.cleaned_data.get('username', None)
-        phonenumber = datas.cleaned_data.get('phonenumber', None)
-        password1 = datas.cleaned_data.get('password1', None)
-        password2 = datas.cleaned_data.get('password2', None)
-        if password1 != password2:
-            return JsonResponse({
-                "code": 201,  # 密码不一致
-                "datas": {
-                    "reaction": "passwordInconformity",  # 密码不一致
-                    "errors": "确认密码不一致"
-                }
-            })
-        else:
-            UserObject = UserDataModels.objects.create(username=username, phoneNumber=phonenumber,
-                                                       userPassword=password2)
-            UserDataModelsContext.objects.create(UserObject=UserObject)
-            return JsonResponse({
-                "code": 200,
-                "datas": {
-                    "reaction": "userCreatorSucceed",  # 用户创建成功
-                    "erroes": ""
-                }
-            })
+        userdata = UserDataModels.objects.create(username=datas.cleaned_data.get('username', None),
+                                                 phoneNumber=datas.cleaned_data.get('phonenumber', None),
+                                                 userPassword=datas.cleaned_data.get('password2', None))
+        UserDataModelsContext.objects.create(UserObject=userdata)
+        return JsonResponse({
+            "code": 200,
+            "datas": {
+                "reaction": "userCreatorsucceed",  # 用户创建成功
+                "errors": "用户创建成功"
+            }
+        })
     else:
+        # print(datas.errors.get_json_data())
         return JsonResponse({
             "code": 400,
             "datas": {
                 "reaction": "userCreatorLose",  # 用户创建失败
-                "errors": "用户创建失败"
+                "errors": datas.errors.get_json_data()
             }
         })
 
@@ -62,7 +51,7 @@ def User_login_data(request):
         voluntarilyLogin = datas.cleaned_data.get('voluntarilyLogin', None)
         try:
             user = UserDataModels.objects.get(phoneNumber=phonenumber, )
-        except Exception as errors:
+        except:
             user = None
         if not user:
             return JsonResponse({
@@ -76,13 +65,13 @@ def User_login_data(request):
             # 设置cookie,session
             if not voluntarilyLogin:
                 Request = render(request, 'index/index.html', )
-                request.session['UserName'] = user.username
+                request.session['phoneNumber'] = user.phoneNumber
                 request.session.set_expiry(0)  # 关闭浏览器过期
                 return Request
             else:
                 Request = render(request, 'index/index.html', )
                 request.session.set_expiry(86400)  # 一天时间过期
-                request.session['UserName'] = user.username
+                request.session['phoneNumber'] = user.phoneNumber
                 return Request
         else:
             return JsonResponse({
@@ -97,7 +86,7 @@ def User_login_data(request):
             "code": 400,
             "datas": {
                 "reaction": "formError",  # 表单错误
-                "errors": "表单错误"
+                "errors": datas.errors.get_json_data()
             }
         })
 
@@ -120,8 +109,8 @@ def emailModification(request):
     emaildatas = formdata.UserEmailModification(request.POST)
     if emaildatas.is_valid():
         # 判断邮箱是否一致
-        if request.user_datas.useremail == emaildatas.cleaned_data.get('oldEmail', None):
-            UserDataModels.objects.filter(phoneNumber=request.user_datas.phoneNumber).update(
+        if request.user_datas.get('userdatas').get('useremail') == emaildatas.cleaned_data.get('oldEmail', None):
+            UserDataModels.objects.filter(phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).update(
                 useremail=emaildatas.cleaned_data.get('newEmail', None))
             return JsonResponse({
                 "code": 200,
@@ -151,13 +140,38 @@ def emailModification(request):
         })
 
 
+# 添加邮箱
+@examineLogin
+def newEmailModification(request):
+    datas = formdata.newEmail(request.POST)
+    if datas.is_valid():
+        UserDataModels.objects.filter(phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).update(
+            useremail=datas.cleaned_data.get('newEmail1'))
+        return JsonResponse({
+            "code": 200,
+            "datas": {
+                "reaction": "邮箱添加成功",  # 邮箱修改成功
+                "errors": ""
+            }
+        })
+    else:
+        return JsonResponse({
+            "code": 400,
+            "datas": {
+                "reaction": "邮箱添加失败",  # 邮箱修改成功
+                "errors": datas.errors.get_json_data()
+            }
+        })
+
+
 # 修改数据: phonenumber
 @examineLogin
 def phoneNumberModification(request):
     phonenumberdatas = formdata.UserPhoneNumberModification(request.POST)
     if phonenumberdatas.is_valid():
-        if request.user_datas.phoneNumber == phonenumberdatas.cleaned_data.get('oldPhoneNumber', None):
-            UserDataModels.objects.filter(phoneNumber=request.user_datas.phoneNumber).update(
+        if request.user_datas.get('userdatas').get('phoneNumber') == phonenumberdatas.cleaned_data.get('oldPhoneNumber',
+                                                                                                       None):
+            UserDataModels.objects.filter(phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).update(
                 phoneNumber=phonenumberdatas.cleaned_data.get('newPhoneNumber', None))
             return JsonResponse({
                 "code": 200,
@@ -191,9 +205,11 @@ def phoneNumberModification(request):
 def passwordModification(request):
     passwordDatas = formdata.UserPasswordModification(request.POST)
     if passwordDatas.is_valid():
-        if passwordDatas.cleaned_data.get('oldPassword', None) == request.user_datas.userPassword:
+        if passwordDatas.cleaned_data.get('oldPassword', None) == request.user_datas.get('userdatas').get(
+                'userPassword'):
             if passwordDatas.cleaned_data.get('newPassword1') == passwordDatas.cleaned_data.get('newPassword2', None):
-                UserDataModels.objects.filter(phoneNumber=request.user_datas.phoneNumber).update(
+                UserDataModels.objects.filter(
+                    phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).update(
                     userPassword=passwordDatas.cleaned_data.get('newPassword2', None))
                 return JsonResponse({
                     "code": 200,
@@ -219,7 +235,6 @@ def passwordModification(request):
                 }
             })
     else:
-        print(passwordDatas.errors.get_json_data())
         return JsonResponse({
             "code": 400,
             "datas": {
@@ -232,58 +247,108 @@ def passwordModification(request):
 # 我的信息页面
 @examineLogin
 def myInformation(request):
-    UserData = UserDataModelsContext.objects.filter(UserObject__phoneNumber=request.user_datas.phoneNumber).first()
-    return render(request, 'userLoginData/myInformation.html', context={'UserDataContext': UserData})
+    return render(request, 'userLoginData/myInformation.html')
 
 
-#  修改信息api
+#  修改昵称
 @examineLogin
-def changeInformation(request):
-    datas = formdata.UserMyInformation(request.POST)
-    if datas.is_valid():
-        #  判断personalizedContext是否为空
-        if datas.cleaned_data.get('personalizedContext', None) is '':
-            datas.cleaned_data.update({'personalizedContext': '大家好'})
-        UserDataModelsContext.objects.filter(
-            UserObject__phoneNumber=request.user_datas.phoneNumber).update(
-            signatureText=datas.cleaned_data.get('personalizedContext', None))
-        UserDataModels.objects.filter(phoneNumber=request.user_datas.phoneNumber).update(
-            username=datas.cleaned_data.get('modificationBorder_nickname', None))
-        return JsonResponse({
-            "code": 200,
-            "datas": {
-                "reaction": "succeed",  # 用户信息修改成功
-                "errors": ""
-            }
+def modification_userName(request):
+    datas_name = formdata.UserNickname(request.POST)  # 昵称
+    datas_content = formdata.UserSignature(request.POST)  # 签名
+    dict_data = {
+        'code': {
+            'name_code': 0,
+            'content_code': 0
+        },
+        'datas': {
+            'name_erroes': '',
+            'content_error': ''
+        }
+    }
+    if datas_name.is_valid():
+        UserDataModels.objects.filter(
+            phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).update(
+            username=datas_name.cleaned_data.get('modificationBorder_nickname', None))
+        dict_data['code'].update({
+            'name_code': 200
+        })
+        dict_data['datas'].update({
+            'name_erroes': ''
         })
     else:
-        print(datas.errors.get_json_data())
-        return JsonResponse({
-            "code": 400,
-            "datas": {
-                "reaction": "lose",  # 用户信息修改失败
-                "errors": datas.errors.get_json_data()
-            }
+        dict_data['code'].update({
+            'name_code': 400
         })
+        dict_data['datas'].update({
+            'name_erroes': datas_name.errors.get_json_data()
+        })
+
+    if datas_content.is_valid():
+        UserDataModelsContext.objects.filter(
+            UserObject__phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).update(
+            signatureText=datas_content.cleaned_data.get('personalizedContext', None))
+        dict_data['code'].update({
+            'content_code': 200
+        })
+        dict_data['datas'].update({
+            'content_error': ''
+        })
+    else:
+        dict_data['code'].update({
+            'content_code': 400
+        })
+        dict_data['datas'].update({
+            'content_error': datas_content.errors.get_json_data()
+        })
+    return JsonResponse(dict_data)
 
 
 # 我的头像页面
 @examineLogin
 def myProfile(request):
-    UserImage = UserDataModelsContext.objects.filter(UserObject__phoneNumber=request.user_datas.phoneNumber).first()
-    img = UserDataModels.objects.filter(phoneNumber=request.user_datas.phoneNumber).first()
-    print(img.demo)
-    return render(request, 'userLoginData/profile.html', context={'UserImage': UserImage.portraitImage})
+    FileImageTage = formdata.UserImage()
+    return render(request, 'userLoginData/profile.html', context={'FileImageTage': FileImageTage})
 
 
 #  用户头像设置
 @csrf_exempt
+@examineLogin
 def UserPortrait(request):  # images = request.FILES.get('image')
-    # with open(os.path.join(settings.BASE_DIR, 'statics', 'publicfiles', 'images', images.name), 'wb+') as f:
-    #     f.write(images.read())
-    images = request.FILES
-    print(images)
-    img = UserDataModelsContext.objects.filter(UserObject__phoneNumber=request.user_datas.phoneNumber).first()
-    img.portraitImage = images['image']
-    img.save()
-    return HttpResponse('ok')
+    images = request.FILES.get('image', None)
+    if not images:
+        return JsonResponse({
+            "code": 400,
+            "datas": {
+                "reaction": "no data",  # 用户信息修改失败
+                "errors": "no data"
+            }
+        })
+    if suffix_check(str(images), ['jpg', 'png']):
+        if images.size < 2097152:
+            userContext = UserDataModelsContext.objects.filter(
+                UserObject__phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).first()
+            userContext.portraitImage = images
+            userContext.save()
+            return JsonResponse({
+                "code": 200,
+                "datas": {
+                    "reaction": settings.MEDIA_URL + str(userContext.portraitImage),  # 图片上传成功
+                    "errors": ""
+                }
+            })
+        else:
+            return JsonResponse({
+                "code": 206,
+                "datas": {
+                    "reaction": "图片超过2M", # 图片超过2M
+                    "errors": "图片超过2M"
+                }
+            })
+    else:
+        return JsonResponse({
+            "code": 205,
+            "datas": {
+                "reaction": "file type error",  # 文件类型错误
+                "errors": "文件类型错误"
+            }
+        })

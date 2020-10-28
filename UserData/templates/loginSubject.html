@@ -20,12 +20,12 @@
                 <div class="phoneNumber">
                     <input type="text" placeholder="手机号码" name="loginPhoneNumber">
                 </div>
-                <span class="userNone hoid">用户不存在</span>
+                <span class="userNone" style="color: red;"></span>
                 {#            登陆密码#}
                 <div class="password">
                     <input type="password" placeholder="密码" name="loginPassword">
                 </div>
-                <span class="userPasswordError hoid">密码错误</span>
+                <span class="userPasswordError" style="color: red;"></span>
                 {#            自动登录#}
                 <div class="voluntarilyLogin">
                     <input type="checkbox" id="true" name="voluntarilyLogin">
@@ -56,16 +56,19 @@
             <div class="nickname dataBox">
                 <input type="text" placeholder="昵称" name="username">
             </div>
+            <span class="name_error" style="color: red;"></span>
             <div class="phoneNumber dataBox">
                 <input type="text" placeholder="手机号码" name="phonenumber">
             </div>
+            <span class="phonenumber_error" style="color: red;"></span>
             <div class="password1 dataBox">
                 <input type="password" placeholder="密码" name="password1">
             </div>
+            <span class="password1_error" style="color: red;"></span>
             <div class="password2 dataBox">
                 <input type="password" placeholder="确认密码" name="password2">
             </div>
-            <div class="errortex hoid">*密码不一致</div>
+            <div class="errortex" style="color: red;">*密码不一致</div>
             <div class="registerSubmit">
                 <span>提  交</span>
             </div>

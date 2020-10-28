@@ -22,7 +22,7 @@ $(function () {
     };
 
     // ajax请求注册
-    Overturn.prototype.registerAjax = function () {
+    Overturn.prototype.registerAjax = function (self) {
         // 获取提交按钮
         let registerSubmit = $('.registerSubmit');
         // 获取昵称
@@ -33,8 +33,6 @@ $(function () {
         let password1 = $('.password1 input[name="password1"]');
         // 获取确认密码
         let password2 = $('.password2 input[name="password2"]');
-        // 自动登录voluntarilyLogin
-        let voluntarilyLogin = $('.voluntarilyLogin input');
         // 获取csrf_token
         let csrf_token = $('input[name="csrfmiddlewaretoken"]');
         // 获取cookie
@@ -49,20 +47,34 @@ $(function () {
             }, function (datas, status) {
                 if (status === "success") {
                     if (datas.code === 200) {
-                        // 用户创建成功
                         alert("注册成功");
-                        // 3秒后刷新页面
-                        window.location.reload()
-                    } else if (datas.code === 201) {
-                        // 密码不一致
-                        // 获取两个密码边框 password1 password2
-                        // 将两个边框变红边
-                        password1.css({"border": "1px solid red"});
-                        password2.css({"border": "1px solid red"});
-                        // 给“*密码不一致”除去hoid样式
-                        $('.errortex').removeClass('hoid')
-                    } else if (datas.code === 400) {
-                        alert("表单填写错误")
+                        window.location.reload();
+                        console.log(datas);
+                    } else {
+                        if (datas.datas.errors.username) {
+                            self.errorsInterfaceChanges(username, $('.name_error'), datas.datas.errors.username[0].message)
+                        }
+                        if (datas.datas.errors.phonenumber) {
+                            self.errorsInterfaceChanges(phonenumber, $('.phonenumber_error'), datas.datas.errors.phonenumber[0].message)
+                        }
+                        if (datas.datas.errors.password1) {
+                            self.errorsInterfaceChanges(password1, $('.password1_error'), datas.datas.errors.password1[0].message);
+                            password2.css({"border": "1px solid red"});
+                            password2.click(function () {
+                                $(this).css({'border': '1px solid #888888'});
+                                $('.password1_error').text('').end().hide();
+                            })
+                        }
+                        if (datas.datas.errors.__all__) {
+                            let errorText = $('.errortex');
+                            password1.css({"border": "1px solid red"}).click(function () {
+                                errorText.text('').hide()
+                            });
+                            password2.css({"border": "1px solid red"}).click(function () {
+                                errorText.text('').hide();
+                            });
+                            errorText.show().text(datas.datas.errors.__all__[0].message)
+                        }
                     }
                 }
             })
@@ -87,7 +99,7 @@ $(function () {
     };
 
     // ajax请求登录
-    Overturn.prototype.loginAjax = function () {
+    Overturn.prototype.loginAjax = function (self) {
         let loginKey = $('.loginKey');
         loginKey.click(function () {
             let phoneNumber = $('.phoneNumber input[name="loginPhoneNumber"]');
@@ -101,7 +113,6 @@ $(function () {
                 "csrfmiddlewaretoken": csrf_token.val()
             }, function (datas, status) {
                 if (status === "success") {
-                    console.log(datas);
                     // 204用户不存在
                     if (datas.code === 204) {
                         $('.userNone').removeClass('hoid')
@@ -116,7 +127,13 @@ $(function () {
                         });
                         // 表单错误
                     } else if (datas.code === 400) {
-                        alert('表单错误')
+                        console.log(datas);
+                        if (datas.datas.errors.phonenumber) {
+                            self.errorsInterfaceChanges(phoneNumber, $('.userNone'), datas.datas.errors.phonenumber[0].message)
+                        }
+                        if (datas.datas.errors.password) {
+                            self.errorsInterfaceChanges(password, $('.userPasswordError'), '')
+                        }
                     } else {
                         // 密码正确
                         window.location.href = 'http://127.0.0.1:8000/index/'
@@ -140,14 +157,32 @@ $(function () {
             })
         })
     };
+
+    // 错误接口调用
+    Overturn.prototype.errorsInterfaceChanges = function (inputClass, errorClass, errorText) {
+        // 边框变红
+        inputClass.css({
+            'border': '1px solid red'
+        });
+        // 显示错误信息
+        errorClass.show().text(errorText);
+        // 绑定点击消失事件
+        inputClass.click(function () {
+            inputClass.css({
+                'border': '1px solid #888888'
+            });
+            errorClass.text('').end().hide();
+        });
+    };
+
     Overturn.prototype.run = function () {
         let self = this;
         self.login();
         self.register();
-        self.registerAjax();
+        self.registerAjax(self);
         self.removeErrorStyle();
-        self.loginAjax();
-        self.longErrorMethod()
+        self.loginAjax(self);
+        self.longErrorMethod();
     };
     const User = new Overturn();
     User.run()

@@ -11,10 +11,11 @@ urlpatterns = [
     path('user/personageCentre/', views.personageCentre, name='personageCentre'),  # 个人中心
     path('user/accountInformation/', views.personageCentre, name='accountInformation'),  # 账号信息
     path('user/emailModification/', views.emailModification, ),  # 修改邮箱
+    path('user/newEmail/', views.newEmailModification, ),  # 添加邮箱
     path('user/phonenumberModification/', views.phoneNumberModification, ),  # 修改手机号码
     path('user/passwordModification/', views.passwordModification, ),  # 修改密码
     path('user/myInformation/', views.myInformation, name='myInformation'),  # 我的信息页面
-    path('user/changeInformation/', views.changeInformation, ),  # 修改信息api
+    path('user/modificationUserNameContent/', views.modification_userName, ),  # 修改昵称 和 签名
     path('user/myProfile/', views.myProfile, name="myProfile"),  # 我的头像页面
     path('user/UserPortrait/', views.UserPortrait, )  # 用户头衔
 ]

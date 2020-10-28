@@ -89,6 +89,7 @@ $(function () {
                 if (status === 'success') {
                     if (datas.code === 200) {
                         // 刷新页面
+                        alert("修改成功");
                         location.reload()
                     } else if (datas.code === 203) {
                         // 邮箱不正确
@@ -108,6 +109,26 @@ $(function () {
                 }
             })
         });
+    };
+    // 新设置邮箱
+    UserData.prototype.newEmail = function (self) {
+        $('.Email1').click(function () {
+            let newEmail1 = $('input[name="newEmail1"]');
+            let csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]');
+            $.post('http://127.0.0.1:8000/user/newEmail/', {
+                'newEmail1': newEmail1.val(),
+                'csrfmiddlewaretoken': csrfmiddlewaretoken.val()
+            }, function (datas, struct) {
+                if (struct === 'success') {
+                    if (datas.code === 200) {
+                        alert("邮箱添加成功");
+                        location.reload()
+                    } else if (datas.code === 400) {
+                        self.errorsInterfaceChanges(newEmail1, $('.newEmailErrortext1'), datas.datas.errors.newEmail1[0].message)
+                    }
+                }
+            })
+        })
     };
     // 手机号码修改
     UserData.prototype.phoneNumberModification = function (self) {
@@ -199,36 +220,71 @@ $(function () {
             });
         })
     };
-    // 我的信息修改
-    UserData.prototype.modificationInfo = function (self) {
+    // 修改用户昵称 和 签名
+    UserData.prototype.modification_userName = function (self) {
         $('.Info').click(function () {
             // 获取昵称
-            let name = $('.nickname input[name="modificationBorder_nickname"]');
-            let context = $('.personalizedContext textarea');
+            let name = $('input[name="modificationBorder_nickname"]');
+            let content = $('.personalizedContext textarea');
             let csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]');
-            $.post('http://127.0.0.1:8000/user/changeInformation/', {
+            $.post('http://127.0.0.1:8000/user/modificationUserNameContent/', {
                 'modificationBorder_nickname': name.val(),
-                'personalizedContext': context.val(),
+                'personalizedContext': content.val(),
                 'csrfmiddlewaretoken': csrfmiddlewaretoken.val()
             }, function (datas, status) {
                 if (status === 'success') {
+                    console.log(datas);
                     if (datas.code === 200) {
-                        alert('修改成功');
+                        // alert('修改成功');
                         location.reload()
                     } else if (datas.code === 400) {
-                        self.errorsInterfaceChanges($('.nickname input[name="modificationBorder_nickname"]'), $('.nameErrorText'), datas.datas.errors.modificationBorder_nickname[0].message)
+                        console.log(datas);
+                        self.errorsInterfaceChanges(name, $('.nameErrorText'), datas.datas.errors.modificationBorder_nickname[0].message)
+                    }
+                    // 判断name是否有错误
+                    if (datas.code.name_code === 200) {
+                        // 刷新页面
+                        alert('昵称修改成功');
+                        location.reload()
+                    } else if (datas.code.name_code === 400) {
+                        self.errorsInterfaceChanges(name, $('.nameErrorText'), datas.datas.name_erroes.modificationBorder_nickname[0].message)
+                    }
+
+                    // 判断签名是否有错误
+                    if (datas.code.content_code === 200) {
+                        // 在签名框下方提示更改成功
+                        $('.textareaContent').text('更改成功').show();
+                        setTimeout(function () {
+                            $('.textareaContent').text('').hide()
+                        }, 2000)
+                    } else if (datas.code.content_code === 400) {
+                        self.errorsInterfaceChanges(content, $('.textareaContent'), datas.datas.content_error.personalizedContext[0].message)
                     }
                 }
             })
         })
     };
+    // 修改用户签名
+    UserData.prototype.modification_userSignatureText = function () {
+        $('.Info').click(function () {
+            let content = $('.personalizedContext textarea');
+            let csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]');
+            $.post('http://127.0.0.1:8000/user/modificationUserSignatureText/', {
+                'modificationBorder_nickname': content.val(),
+                'csrfmiddlewaretoken': csrfmiddlewaretoken.val()
+            }, function (datas, status) {
+                if (status === 'success') {
+                    console.log(datas);
+                }
+            })
+        })
+    };
     // 修改我的头像
-    UserData.prototype.UserPortrait = function () {
-        let csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]');
-        $('.fileData input').bind('input propertychange', function (event) {
+    UserData.prototype.UserPortrait = function (self) {
+        $('.fileData input').bind('change', function (event) {
             let image = $('#qwe');
-            let images = new FormData(image[0]);
-            images.get('image');
+            let images = new FormData();
+            images.append('image', $('input[name="image"]')[0].files[0]);
             $.ajax({
                 url: 'http://127.0.0.1:8000/user/UserPortrait/',
                 data: images,
@@ -238,11 +294,17 @@ $(function () {
                 cache: false,
                 contentType: false,
                 processData: false,
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function (data) {
-                    console.log(data);
+                success: function (datas, status) {
+                    if (datas.code === 200) {
+                        $('.modificationPortrait > img').attr({'src': datas.datas.reaction});
+                        $('.UserProfile > img').attr({'src': datas.datas.reaction});
+                    } else if (datas.code === 205) {
+                        // 文件类型错误
+                        self.errorsInterfaceChanges($('.fileData input'), $('.imageError'), datas.datas.errors)
+                    } else if (datas.code === 206) {
+                        // 文件大小错误
+                        self.errorsInterfaceChanges($('.fileData input'), $('.imageError'), datas.datas.errors)
+                    }
                 }
             })
         })
@@ -274,8 +336,9 @@ $(function () {
         self.emailDatasModification(self);
         self.phoneNumberModification(self);
         self.passwordModification(self);
-        self.modificationInfo(self);
-        self.UserPortrait()
+        self.modification_userName(self);
+        self.UserPortrait(self);
+        self.newEmail(self);
     };
     userdatamethods.run()
 });

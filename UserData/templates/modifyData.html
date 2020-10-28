@@ -5,28 +5,48 @@
     <div class="modificationBorder">
         <ul>
             <li>
-                <div class="UserDatasGeneralStyle">
-                    {#                            关闭#}
-                    <div class="closeUserModification">
-                        <div class="X"></div>
-                    </div>
-                    {#                            email修改#}
-                    <div class="Modification">
-                        <div class="oldEmail generalFormat">
-                            <input type="email" placeholder="旧邮箱" name="oldEmail">
+                {% if user_datas.useremail == None or user_datas.useremail == ""%}
+                    <div class="UserDatasGeneralStyle">
+                        {#                            关闭#}
+                        <div class="closeUserModification">
+                            <div class="X"></div>
                         </div>
-                        <div class="oldEmailErrortext" style="display: none"></div>
+                        {#                            email修改#}
+                        <div class="Modification">
+                            <div class="newEmail generalFormat1">
+                                <input type="email" placeholder="新邮箱" name="newEmail1">
+                            </div>
+                            <div class="newEmailErrortext1" style="display: none"></div>
 
-                        <div class="newEmail generalFormat">
-                            <input type="email" placeholder="新邮箱" name="newEmail">
-                        </div>
-                        <div class="newEmailErrortext" style="display: none"></div>
-
-                        <div class="Email submit">
-                            提 交
+                            <div class="Email1 submit">
+                                提 交
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% else %}
+                    <div class="UserDatasGeneralStyle">
+                        {#                            关闭#}
+                        <div class="closeUserModification">
+                            <div class="X"></div>
+                        </div>
+                        {#                            email修改#}
+                        <div class="Modification">
+                            <div class="oldEmail generalFormat">
+                                <input type="email" placeholder="旧邮箱" name="oldEmail">
+                            </div>
+                            <div class="oldEmailErrortext" style="display: none"></div>
+
+                            <div class="newEmail generalFormat">
+                                <input type="email" placeholder="新邮箱" name="newEmail">
+                            </div>
+                            <div class="newEmailErrortext" style="display: none"></div>
+
+                            <div class="Email submit">
+                                提 交
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
                 <span>绑定邮箱</span>
                 <span>{{ user_datas.useremail|emailFilter }}</span>
                 <span>更换邮箱地址</span>
