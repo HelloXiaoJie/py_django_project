@@ -1,0 +1,121 @@
+{% extends 'page_base/backstage_index_base.html' %}
+{% load static %}
+{% block external_file %}
+    <link href="{% static 'backstageStatics/css/backstage.css' %}" rel="stylesheet">
+    <script src="{% static 'publicfiles/js/jquery-3.5.1.js' %}"></script>
+    <script src="{% static 'backstageStatics/js/backstage.js' %}"></script>
+{% endblock %}
+
+{% block left_label %}
+    {% csrf_token %}
+    <div class="left_page">
+        {#    管理员信息#}
+        <div class="Administrator_message">
+            {#        头像#}
+            <div class="head_portrait">
+                <img src="{{ MEDIA_URL }}UserPortrait\75994211_p0.jpg" alt="" width="100" height="100">
+            </div>
+            {#        问候语#}
+            <div class="greetings">
+                早安，打工人
+            </div>
+        </div>
+        {#    选择信息管理#}
+        <dic class="select_message_Management">
+            <ul>
+                <a href="{% url 'backstageUserData' %}">
+                    <li style="background-color: #888888;">用户数据</li>
+                </a>
+                <li>hello</li>
+                <li>hello</li>
+                <li>hello</li>
+                <li>hello</li>
+            </ul>
+        </dic>
+
+        {#    退出管理#}
+        <div class="quit_Management">
+            退出管理
+        </div>
+    </div>
+{% endblock %}
+
+{% block right_label %}
+    <div class="navigation">
+        {#        首页#}
+        <div class="home_page"><a href="{% url 'backstage' %}">首页</a> ›</div>
+        <div class="userData_page">添加用户</div>
+    </div>
+
+    <div class="location_frame" style="height: 900px; width: 1060px;">
+        <div class="modification_data_text">添加用户数据</div>
+        <div class="user_add_message">
+            <div class="user_text">用户</div>
+            <div class="username_text"></div>
+        </div>
+        {#        user添加数据#}
+        <ul class="modification_data">
+            <li>
+                <div>username:</div>
+                <div>
+                    <input type="text" name="username">
+                </div>
+                <div class="errors_text username">手机号码错误</div>
+            </li>
+            <li>
+                <div>phoneNumber:</div>
+                <div>
+                    <input type="text" name="phoneNumber">
+                </div>
+                <div class="errors_text phoneNumber">手机号码错误</div>
+            </li>
+            <li>
+                <div>useremail:</div>
+                <div>
+                    <input type="text" name="useremail">
+                </div>
+                <div class="errors_text useremail">手机号码错误</div>
+            </li>
+            <li>
+                <div>userPassword:</div>
+                <div>
+                    <input type="text" name="userPassword">
+                </div>
+                <div class="errors_text userPassword">手机号码错误</div>
+            </li>
+        </ul>
+        {#        增加个人信息资料#}
+        <div class="personal_data">
+            添加用户个人资料
+        </div>
+        {#        添加用户页面#}
+        <div class="add_user_page" data-save="0">
+            <div class="user_add_border">
+                {#            个人签名#}
+                <div class="idiograph">
+                    个性签名:<textarea></textarea>
+                </div>
+                {#            个人头像#}
+                <div class="personal_icon">
+                    个人头像:
+                    <div class="personal_icon_image">
+                        <img src="{% static 'publicfiles/images/微信图片_20200201214634.png' %}" width="150" height="150">
+                        <input type="file" name="user_image" accept="image/jpg, imgae/png" required>
+                    </div>
+                </div>
+                {#            取消添加用户#}
+                <div class="cancel_add_user_data">
+                    取消添加
+                </div>
+            </div>
+        </div>
+
+        {#        保存 保存并继续编辑#}
+        <div class="save_data_and_compile">
+            {#            保存继续编辑#}
+            <div class="save_Continue_editing">保存并添加另一个</div>
+            {#            保存#}
+            <div class="save">保存</div>
+        </div>
+    </div>
+{% endblock %}

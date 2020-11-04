@@ -1,11 +1,11 @@
 {% extends 'baseTemplates/indexBase.html' %}
 {% load static %}
 {% block externalFile %}
+        <script src="{% static 'publicfiles/js/jquery-3.5.1.js' %}"></script>
+    <script src="{% static 'publicfiles/js/swiper-bundle.js' %}"></script>
+        <script src="{% static 'indexStatics/js/index.js' %}" type="text/javascript"></script>
     <link href="{% static 'publicfiles/css/swiper-bundle.css' %}" rel="stylesheet">
     <link href="{% static 'indexStatics/css/index.css' %}" rel="stylesheet">
-    <script src="{% static 'publicfiles/js/jquery-3.3.1.js' %}"></script>
-    <script src="{% static 'publicfiles/js/swiper-bundle.js' %}"></script>
-    <script src="{% static 'indexStatics/js/index.js' %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block head %}

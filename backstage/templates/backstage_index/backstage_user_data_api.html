@@ -1,0 +1,110 @@
+{% extends 'page_base/backstage_index_base.html' %}
+{% load static %}
+
+{% block external_file %}
+    <link href="{% static 'backstageStatics/css/backstage.css' %}" type="text/css" rel="stylesheet">
+{% endblock %}
+
+{% block left_label %}
+    <div class="left_page">
+        {#    管理员信息#}
+        <div class="Administrator_message">
+            {#        头像#}
+            <div class="head_portrait">
+                <img src="{{ MEDIA_URL }}UserPortrait\75994211_p0.jpg" alt="" width="100" height="100">
+            </div>
+            {#        问候语#}
+            <div class="greetings">
+                早安，打工人
+            </div>
+        </div>
+        {#    选择信息管理#}
+        <dic class="select_message_Management">
+            <ul>
+                <li style="background-color: #888888;">用户数据</li>
+                <li>hello</li>
+                <li>hello</li>
+                <li>hello</li>
+                <li>hello</li>
+            </ul>
+        </dic>
+
+        {#    退出管理#}
+        <div class="quit_Management">
+            退出管理
+        </div>
+    </div>
+{% endblock %}
+
+{% block right_label %}
+    {#    导航#}
+    <div class="navigation">
+        {#        首页#}
+        <div class="home_page"><a href="{% url 'backstage' %}">首页</a> ›</div>
+        <div class="userData_page"><a href="{% url 'backstageUserData' %}">UserDataModels</a> ›</div>
+        <div class="userData_page">pk {{ data.pk }}</div>
+    </div>
+    <div class="location_frame">
+        <div class="modification_data_text">修改用户数据</div>
+        {#        修改数据#}
+        <div class="user_data_text">
+            用户数据:
+        </div>
+        <ul class="modification_data">
+            <li>
+                <div>username:</div>
+                <div>
+                    <input type="text" value="{{ data.username }}" name="username">
+                </div>
+            </li>
+            <li>
+                <div>phoneNumber:</div>
+                <div>
+                    <input type="text" value="{{ data.phoneNumber }}" name="phoneNumber">
+                </div>
+            </li>
+            <li>
+                <div>useremail:</div>
+                <div>
+                    <input type="text" value="{{ data.useremail }}" name="useremail">
+                </div>
+            </li>
+            <li>
+                <div>userPassword:</div>
+                <div>
+                    <input type="text" value="{{ data.userPassword }}" name="userPassword">
+                </div>
+            </li>
+        </ul>
+
+        <div class="user_data_text">
+            用户个人数据:
+        </div>
+        {#        用户个人数据#}
+        <ul class="user_personage_data">
+            <li class="user_personage_data_signatureText">
+                <div>signatureText:</div>
+                <textarea>{{ data_content.signatureText }}</textarea>
+            </li>
+            <li class="user_personage_data_portraitImage">
+                <div>portraitImage:</div>
+                <div>
+                    <img src="{{ data_content.portraitImage.url }}" width="150" height="150">
+                </div>
+                <input type="file" name="" class="user_personage_data_file_portraitImage">
+            </li>
+        </ul>
+
+        {#        数据操作#}
+        <div class="data_operation">
+            {#            删除数据#}
+            <div class="delete_data">
+                删除
+            </div>
+            {#            保存数据#}
+            <div class="save_data">
+                保存
+            </div>
+        </div>
+    </div>
+{% endblock %}

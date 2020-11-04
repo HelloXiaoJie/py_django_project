@@ -282,7 +282,7 @@ $(function () {
     // 修改我的头像
     UserData.prototype.UserPortrait = function (self) {
         $('.fileData input').bind('change', function (event) {
-            let image = $('#qwe');
+            // let image = $('#qwe');
             let images = new FormData();
             images.append('image', $('input[name="image"]')[0].files[0]);
             $.ajax({
