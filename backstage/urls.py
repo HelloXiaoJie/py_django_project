@@ -8,4 +8,5 @@ urlpatterns = [
     path('backstageUserData/deleteUser/', views.Delete_user_data_api, ),  # 删除用户api
     path('backstageUserData/adduser/', views.add_user, name="adduser"),  # 添加用户页面
     path('backstageUserData/adduserApi/', views.app_user_api, ),  # 添加用户api
+
 ]

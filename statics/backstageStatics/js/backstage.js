@@ -142,14 +142,17 @@ $(function () {
 
     // 使用post方法提交数据
     BackstageUserData.prototype.post_add_user_data = function (self) {
-        $('.save').click(function () {
+        $('.save_submit').click(function () {
+            let save_data = $(this).attr('data-submit');
+            // console.log(this);
+            // console.log($(this).attr('data-submit'));
             let username = $('.modification_data input[name="username"]');
             let phoneNumber = $('.modification_data input[name="phoneNumber"]');
             let useremail = $('.modification_data input[name="useremail"]');
             let userPassword = $('.modification_data input[name="userPassword"]');
             let idiograph = $('.idiograph textarea');
             // 头像文件
-            let personal_icon_image = $('.personal_icon_image input[name="user_image"]');
+            // let personal_icon_image = $('.personal_icon_image input[name="user_image"]');
             let csrf_token = $('input[name="csrfmiddlewaretoken"]');
             let user_datas = new FormData();
             if (!Number($('.add_user_page').attr('data-save'))) {
@@ -166,7 +169,7 @@ $(function () {
                 user_datas.append('useremail', useremail.val());
                 user_datas.append('userPassword', userPassword.val());
                 user_datas.append('idiograph', idiograph.val());
-                user_datas.append('personal_icon_image', personal_icon_image[0].files[0]);
+                user_datas.append('personal_icon_image', self.head_portrait_image);
                 user_datas.append('csrfmiddlewaretoken', csrf_token.val());
             }
             $.ajax({
@@ -186,9 +189,13 @@ $(function () {
                 success: function (datas) {
                     if (datas.code === 200) {
                         alert('添加成功');
-                        location.replace('/backstageUserData/')
+                        if (Number(save_data)) {
+                            location.replace('/backstageUserData/')
+                        } else {
+                            location.reload()
+                        }
                     } else if (datas.code === 400) {
-                        console.log(datas.datas.errors);
+                        // console.log(datas.datas.errors);
                         if (datas.datas.errors.username) {
                             self.error_datas_style(username, datas.datas.errors.username[0].message)
                         }
@@ -213,11 +220,59 @@ $(function () {
             error_Object.parent().siblings().filter('.errors_text').text('').hide();
         })
     };
+    // 头像设置显示
+    BackstageUserData.prototype.head_portrait_set = function (self) {
+        $('.personal_icon_image input[name="user_image"]').bind('change', function () {
+            if (!this.files[0]) {
+                return
+            }
+            if (!(this.files[0].type === 'image/png' || this.files[0].type === 'image/jpeg')) {
+                self.head_portrait_file_error('文件类型错误');
+                return;
+            }
+            if (this.files[0].size > 2097152) {
+                self.head_portrait_file_error('图片大于2M');
+                return;
+            }
+            self.head_portrait_image = this.files[0];
+            $('.personal_icon_image img').attr({'src': URL.createObjectURL(this.files[0])})
+        })
+    };
+    // 头像变量
+    BackstageUserData.prototype.head_portrait_image = null;
+    //处理头像文件错误
+    BackstageUserData.prototype.head_portrait_file_error = function (error_text) {
+        $('.image_file_error').text(error_text).css({'display': 'inline-block'})
+    };
+    // 点击头像文件错误提示消失
+    BackstageUserData.prototype.head_portrait_hide = function () {
+        $('.personal_icon_image input[name="user_image"]').click(function () {
+            $('.image_file_error').text('').css({'display': 'none'})
+        })
+    };
+    // 修改用户数据
+    BackstageUserData.prototype.user_data_modification = function () {
+        $('.save_data').click(function () {
+            let pk = $('input[name="user_pk"]');
+            let username = $('.modification_data input[name="username"]');
+            let phoneNumber = $('.modification_data input[name="phoneNumber"]');
+            let useremail = $('.modification_data input[name="useremail"]');
+            let userPassword = $('.modification_data input[name="userPassword"]');
+            let idiograph = $('.idiograph textarea');
+            let csrf_token = $('input[name="csrfmiddlewaretoken"]');
+            let datas = new FormData();
+            datas.append();
+            $.post('', {})
+        })
+    };
+
     BackstageUserData.prototype.run = function () {
         let self = this;
         self.data_operation(self);
         self.show_add_user_content_page();
-        self.post_add_user_data(self)
+        self.post_add_user_data(self);
+        self.head_portrait_set(self);
+        self.head_portrait_hide()
     };
     const backstageUserData_Method = new BackstageUserData();
     backstageUserData_Method.run()

@@ -44,7 +44,7 @@
     <div class="navigation">
         {#        首页#}
         <div class="home_page"><a href="{% url 'backstage' %}">首页</a> ›</div>
-        <div class="userData_page">添加用户</div>
+        <div class="userData_page"><a href="{% url 'backstageUserData' %}">UserDataModels</a></div>
     </div>
 
     <div class="location_frame" style="height: 900px; width: 1060px;">
@@ -99,9 +99,10 @@
                 <div class="personal_icon">
                     个人头像:
                     <div class="personal_icon_image">
-                        <img src="{% static 'publicfiles/images/微信图片_20200201214634.png' %}" width="150" height="150">
+                        <img src="{{ MEDIA_URL }}UserPortrait/用户.png" width="150" height="150">
                         <input type="file" name="user_image" accept="image/jpg, imgae/png" required>
                     </div>
+                    <div class="image_file_error">文件错误</div>
                 </div>
                 {#            取消添加用户#}
                 <div class="cancel_add_user_data">
@@ -113,9 +114,9 @@
         {#        保存 保存并继续编辑#}
         <div class="save_data_and_compile">
             {#            保存继续编辑#}
-            <div class="save_Continue_editing">保存并添加另一个</div>
+            <div class="save_Continue_editing save_submit" data-submit="0">保存并添加另一个</div>
             {#            保存#}
-            <div class="save">保存</div>
+            <div class="save save_submit" data-submit="1">保存</div>
         </div>
     </div>
 {% endblock %}

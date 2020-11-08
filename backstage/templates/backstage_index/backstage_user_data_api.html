@@ -6,6 +6,8 @@
 {% endblock %}
 
 {% block left_label %}
+    {% csrf_token %}
+    <input type="hidden" value="{{ data.pk }}" name="user_pk">
     <div class="left_page">
         {#    管理员信息#}
         <div class="Administrator_message">

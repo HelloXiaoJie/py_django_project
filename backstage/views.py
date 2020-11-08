@@ -78,3 +78,11 @@ def app_user_api(request):
                 'errors': datas.errors.get_json_data()
             }
         })
+
+# 用户数据变化修改api
+def user_data_modification_examine(request):
+    datas = forms.app_user_data_form_api(request.POST, request.FILES)
+    if datas.is_valid():
+        pass
+    else:
+        pass

@@ -691,3 +691,15 @@ a {
     line-height: 30px;
     color: #e1251b;
 }
+
+.image_file_error {
+    color: #e1251b;
+    width: 150px;
+    /*border: 1px solid;*/
+    text-align: center;
+    /*display: inline-block;*/
+    display: none;
+    position: absolute;
+    top: 152px;
+    left: 78px;
+}
