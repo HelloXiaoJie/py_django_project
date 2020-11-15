@@ -248,7 +248,7 @@ a {
     resize: none;
     position: absolute;
     top: 324px;
-    left: 140px;
+    left: 225px;
 }
 
 .user_personage_data_portraitImage {
@@ -702,4 +702,19 @@ a {
     position: absolute;
     top: 152px;
     left: 78px;
+}
+
+.file_image_error {
+    /*display: inline-block;*/
+    display: none;
+    position: absolute;
+    top: 90px;
+    left: 400px;
+    color: #e1251b;
+}
+
+.data_error_style {
+    color: #e1251b;
+    /*display: inline-block;*/
+    display: none;
 }

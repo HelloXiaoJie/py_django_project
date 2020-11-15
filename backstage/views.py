@@ -27,7 +27,6 @@ def User_data_api(request, user_pk):
 
 def Delete_user_data_api(request):
     delete_datas_list = dict(request.POST).get('data_list[]', None)
-    print(delete_datas_list)
     if not delete_datas_list:
         return JsonResponse({
             'code': 201,
@@ -79,10 +78,127 @@ def app_user_api(request):
             }
         })
 
+
+# 对数据变动的数据进行检查是否唯一
+def examine_data_sole(amend_user_data, amend_user_data_errors, user_args_dict):
+    for key, value in amend_user_data.items():
+        if key == 'portraitImage' or key == 'signatureText':
+            continue
+        if key == 'username':
+            if UserDataModels.objects.filter(username=value).exists():
+                amend_user_data_errors.update({key: user_args_dict.get(key)})
+        elif key == 'phoneNumber':
+            if UserDataModels.objects.filter(phoneNumber=value).exists():
+                amend_user_data_errors.update({key: user_args_dict.get(key)})
+        elif key == 'useremail':
+            if UserDataModels.objects.filter(useremail=value).exists():
+                amend_user_data_errors.update({key: user_args_dict.get(key)})
+
+
 # 用户数据变化修改api
 def user_data_modification_examine(request):
-    datas = forms.app_user_data_form_api(request.POST, request.FILES)
+    pk = request.POST.get('pk', None)
+    # 数据变化的数据
+    amend_user_data = {}
+    # 数据处理异常
+    amend_user_data_errors = {}
+    # 数码异常关联
+    user_args_dict = {'username': '用户已存在', 'phoneNumber': '该手机号码不可用', 'useremail': '该邮箱已存在'}
+    # 获得当前用户下的usernamw, phonenumber, useremail, userpassword 的数据
+    user_data = UserDataModels.objects.filter(pk=pk).values('username', 'phoneNumber', 'useremail',
+                                                            'userPassword').first()
+    datas = forms.user_datae_the_first_time_check(request.POST, request.FILES)
     if datas.is_valid():
-        pass
+        user_data_change = False
+        # 判断数据是否改动
+        for key, value in datas.cleaned_data.items():
+            if key == 'portraitImage' or key == 'signatureText':
+                continue
+            if user_data.get(key) != value:
+                user_data_change = True
+                break
+        # 图片 或 签名 发生变化
+        if request.POST.get('image_file_change') == 'true' or request.POST.get('signatureText_change') == 'true':
+            user_data_change = True
+
+        if user_data_change:
+            # 数据有变化
+            # 选出数据发生变化的数据 -> username useremail userPassword phonenumber
+            for key, value in datas.cleaned_data.items():
+                if key == 'signatureText' or key == 'portraitImage':
+                    continue
+                if value != user_data.get(key):
+                    amend_user_data.update({key: value})
+
+            if request.POST.get('signatureText_change') == 'true':
+                amend_user_data.update({'signatureText': datas.cleaned_data.get('signatureText')})
+
+            if request.POST.get('image_file_change') == 'true':
+                amend_user_data.update({'portraitImage': datas.cleaned_data.get('portraitImage')})
+
+            # 对数据变动的数据进行检查是否唯一
+            examine_data_sole(amend_user_data, amend_user_data_errors, user_args_dict)
+
+            # 数据异常返回异常
+            if amend_user_data_errors:
+                return JsonResponse({
+                    'code': 400,
+                    'datas': amend_user_data_errors
+                })
+
+            # 处理变化的数据
+            for key, value in amend_user_data.items():
+                if key == 'username':
+                    UserDataModels.objects.filter(pk=pk).update(username=value)
+                elif key == 'phoneNumber':
+                    UserDataModels.objects.filter(pk=pk).update(phoneNumber=value)
+                elif key == 'useremail':
+                    UserDataModels.objects.filter(pk=pk).update(useremail=value)
+                elif key == 'userPassword':
+                    UserDataModels.objects.filter(pk=pk).update(userPassword=value)
+                elif key == 'signatureText':
+                    UserDataModelsContext.objects.filter(UserObject__pk=pk).update(
+                        signatureText=datas.cleaned_data.get('signatureText'))
+                elif key == 'portraitImage':
+                    user_image = UserDataModelsContext.objects.filter(UserObject__pk=pk).first()
+                    # user_image.portraitImage.delete()
+                    user_image.portraitImage = datas.cleaned_data.get('portraitImage')
+                    user_image.save()
+
+            return JsonResponse({
+                'code': 200,
+                'datas': 'modify_successfully'  # 修改成功
+            })
+        else:
+            # 数据无变化
+            return JsonResponse({
+                'code': 200,
+                'datas': "data_uniformity"  # 数据无变化
+            })
     else:
-        pass
+        # 处理错误的数据
+        for key, value in datas.errors.get_json_data().items():
+            amend_user_data_errors.update({key: value[0].get('message')})
+
+        user_data_change = False
+        # 判断数据是否改动
+        for key, value in datas.cleaned_data.items():
+            if user_data.get(key) != value:
+                user_data_change = True
+                break
+
+        if user_data_change:
+            # 数据有变化
+            # 选出数据发生变化的数据
+            for key, value in datas.cleaned_data.items():
+                if value != user_data.get(key):
+                    amend_user_data.update({key: value})
+
+        # 对数据变动的数据进行检查是否唯一
+        examine_data_sole(amend_user_data, amend_user_data_errors, user_args_dict)
+
+        # 数据异常返回异常
+        return JsonResponse({
+            'code': 400,
+            'datas': amend_user_data_errors
+        })

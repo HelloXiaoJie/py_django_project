@@ -4,7 +4,8 @@
 {% block externalFiles %}
     <link rel="stylesheet" href="{% static 'indexStatics/css/index.css' %}">
     <link href="{% static 'UserDataStatics/css/UserData.css' %}" rel="stylesheet">
-    <script src="{% static 'publicfiles/js/jquery-3.3.1.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'UserDataStatics/css/shopping_trolley.css' %}">
+    <script src="{% static 'publicfiles/js/jquery-3.5.1.js' %}"></script>
     <script src="{% static 'UserDataStatics/js/UserData.js' %}"></script>
 {% endblock %}
 
@@ -13,7 +14,8 @@
 {% endblock %}
 
 {% block selectData %}
-    {#        选择信息#}
+    <input type="hidden" value="{{ user_datas.phoneNumber }}" name="shop_phone">
+    <input type="hidden" value="{{ user_datas.username }}" name="shop_name">
     <div class="selectMessage">
         {#            账号设置#}
         <div class="AccountSettingstext">
@@ -33,16 +35,16 @@
                     <span>我的信息</span>
                 </div>
             </a>
+            <a href="{% url 'user:myProfile' %}">
+                <div class="InformationStyle">
+                    <div class="pitchDotImage"></div>
+                    <span>头像设置</span>
+                </div>
+            </a>
             <a href="#">
                 <div class="InformationStyleBackgroundResident">
                     <div class="pitchRightImageResident"></div>
-                    <span style="color: black">头像设置</span>
-                </div>
-            </a>
-            <a href="{% url 'user:myShop' %}">
-                <div class="InformationStyle">
-                    <div class="pitchDotImage"></div>
-                    <span>我的商店</span>
+                    <span style="color: black">我的商店</span>
                 </div>
             </a>
         </div>
@@ -50,21 +52,5 @@
 {% endblock %}
 
 {% block modificationData %}
-    {#        需要修改的数据#}
-    <div class="messagedatas">
-        {#            修改边框#}
-        <div class="modificationBorder">
-            <div class="modificationPortrait">
-                <img src="{{ MEDIA_URL }}{{ user_content.usercontent__portraitImage }}" alt="" width="150" height="150">
-                <form id="qwe">
-                    <div class="fileData">
-                        <span>选择头像</span>
-                        <div class="imageError" style="color: red;"></div>
-                        <input type="file" name="image" accept="image/jpg, imgae/png" required>
-                    </div>
-                </form>
-                <span>支持 JPG、PNG 格式，不要超过 2M </span>
-            </div>
-        </div>
-    </div>
+    {% include 'my_commodity.html' %}
 {% endblock %}

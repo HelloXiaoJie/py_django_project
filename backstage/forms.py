@@ -38,3 +38,25 @@ class app_user_data_form_api(forms.Form):
         if UserDataModels.objects.filter(useremail=useremail).exists():
             raise forms.ValidationError(code='400', message='该邮箱已存在')
         return useremail
+
+
+class user_datae_the_first_time_check(forms.Form):
+    username = forms.CharField(max_length=10, min_length=6,
+                               error_messages={"max_length": '用户名长度不大于10',
+                                               'min_length': '用户名长度不小于6', 'required': '不能为空'})
+
+    phoneNumber = forms.CharField(max_length=11, error_messages={"max_length": '请输入有效的手机号码',
+                                                                 "invalid": '请输入有效的手机号码',
+                                                                 'min_length': '请输入有效的手机号码', 'required': '不能为空'},
+                                  validators=(validators.RegexValidator(regex='[\d]{11}'),))
+
+    useremail = forms.EmailField(error_messages={'invalid': '请输入有效的电子邮件地址'})
+
+    userPassword = forms.CharField(max_length=10, min_length=6,
+                                   error_messages={"max_length": '密码长度不大于10',
+                                                   "min_length": '密码长度小于6', 'required': '不能为空'})
+
+    signatureText = forms.CharField(max_length=255, required=False)
+
+    portraitImage = forms.ImageField(required=False, validators=[
+        validators.FileExtensionValidator(allowed_extensions=['jpg', 'png']), ])

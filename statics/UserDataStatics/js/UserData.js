@@ -309,6 +309,33 @@ $(function () {
             })
         })
     };
+    // 开启商店
+    UserData.prototype.open_Shop = function () {
+        $('.Open_the_shop').click(function () {
+            let content = prompt('请输入用户名开启商店');
+            if (content === null) {
+                return
+            } else if (content === $('input[name="shop_name"]').val()) {
+                // console.log('ok');
+                // location.replace('/user/myShop/')
+            } else {
+                return
+            }
+            let shop_phone = $('input[name="shop_phone"]').val();
+            $.post('http://127.0.0.1:8000/user/addShopJurisdiction/', {
+                'shop_phone': shop_phone,
+                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+            }, function (datas, status) {
+                if (status === 'success') {
+                    if (datas.code === 200) {
+                        location.replace('/user/myShop/')
+                    }else if (datas.code === 400) {
+                        console.log('错误');
+                    }
+                }
+            })
+        })
+    };
 
     // 错误接口调用
     UserData.prototype.errorsInterfaceChanges = function (inputClass, errorClass, errorText) {
@@ -339,6 +366,7 @@ $(function () {
         self.modification_userName(self);
         self.UserPortrait(self);
         self.newEmail(self);
+        self.open_Shop()
     };
     userdatamethods.run()
 });

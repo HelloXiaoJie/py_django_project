@@ -1,5 +1,5 @@
 from django.db import models
-from django.conf import settings
+
 
 # Create your models here.
 class UserDataModels(models.Model):
@@ -11,6 +11,8 @@ class UserDataModels(models.Model):
     userPassword = models.CharField(max_length=10, )
     # email
     useremail = models.EmailField(null=True, )
+    # 是否开放商店权限
+    shop = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'userdata'
@@ -21,7 +23,24 @@ class UserDataModelsContext(models.Model):
     signatureText = models.TextField(default='大家好')
     # 个人头像
     portraitImage = models.ImageField(null=True, upload_to='UserPortrait', default='UserPortrait/用户.png')
-    UserObject = models.OneToOneField('UserDataModels', on_delete=models.CASCADE, null=True)
+    UserObject = models.OneToOneField('UserDataModels', on_delete=models.CASCADE, null=True, related_name='usercontent')
 
     class Meta:
         db_table = 'userContext'
+
+
+class UserShop(models.Model):
+    shopUser = models.ForeignKey('UserDataModels', on_delete=models.SET_NULL, null=True)
+    # 商品名称
+    shopName = models.CharField(max_length=255)
+    # 商品价格
+    shopPrice = models.IntegerField()
+    # 商品数量
+    shopQuantity = models.IntegerField()
+    # 月销售量
+    monthlySales = models.IntegerField()
+    # 收藏数量
+    salesQuantity = models.IntegerField()
+
+    class Meta:
+        db_table = 'userShop'

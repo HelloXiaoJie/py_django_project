@@ -11,8 +11,8 @@ def userInexistence(a, b, c=None):
     '''
     if c:
         a.user_datas = {
-            'userdatas': c.values('username', 'phoneNumber', 'useremail', 'userPassword')[0],
-            'usercontext': c.values('userdatamodelscontext__signatureText', 'userdatamodelscontext__portraitImage')[0]
+            'userdatas': c.values('username', 'phoneNumber', 'useremail', 'userPassword', 'shop')[0],
+            'usercontext': c.values('usercontent__signatureText', 'usercontent__portraitImage')[0]
         }
     else:
         a.user_datas = {

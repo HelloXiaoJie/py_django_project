@@ -1,0 +1,61 @@
+.not_open_shop_text {
+    font-size: 70px;
+    /*border: 1px solid;*/
+    text-align: center;
+    margin-top: 20px;
+}
+
+.Shop_button_location {
+    text-align: center;
+}
+
+.Open_the_shop {
+    margin-top: 60px;
+    border-radius: 5px;
+    border: 1px solid;
+    display: inline-block;
+    font-size: 20px;
+    width: 134px;
+    height: 45px;
+    background-color: #e1251b;
+    color: white;
+    line-height: 45px;
+    cursor: pointer;
+}
+
+.Open_the_shop:hover {
+    background-color: rgba(246, 45, 33, 0.95);
+}
+
+.shop_list {
+    width: 760px;
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    margin-top: 20px;
+    float: right;
+    margin-right: 20px;
+    /*position: relative;*/
+}
+
+.all_the_goods {
+    display: inline-block;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.add_Merchandise {
+    width: 100px;
+    height: 40px;
+    background-color: #006DD4;
+    text-align: center;
+    line-height: 40px;
+    color: white;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add_Merchandise:hover {
+    background-color: rgba(0,132,239,0.95);
+}

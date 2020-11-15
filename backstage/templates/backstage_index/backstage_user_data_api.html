@@ -2,10 +2,35 @@
 {% load static %}
 
 {% block external_file %}
+    <script src="{% static 'publicfiles/js/jquery-3.5.1.js' %}"></script>
+    <script src="{% static 'backstageStatics/js/backstage.js' %}"></script>
     <link href="{% static 'backstageStatics/css/backstage.css' %}" type="text/css" rel="stylesheet">
 {% endblock %}
 
 {% block left_label %}
+    {#    删除用户数据的背景#}
+    <div class="delete_background" id="delete_background"></div>
+    {#    删除确认#}
+    <div class="delete_affirm">
+        <div class="text_1">
+            请确定要删除选中的用户数据
+        </div>
+        <div class="text_2">
+            删除对象:
+        </div>
+        <div class="delete_class_data">
+            <ul>
+
+            </ul>
+        </div>
+        {#            操作#}
+        <div class="operation">
+            <div class="delete">确 认 删 除</div>
+            <div class="no_delete">不，返回</div>
+        </div>
+    </div>
+
+    </div>
     {% csrf_token %}
     <input type="hidden" value="{{ data.pk }}" name="user_pk">
     <div class="left_page">
@@ -58,24 +83,28 @@
                 <div>
                     <input type="text" value="{{ data.username }}" name="username">
                 </div>
+                <div class="data_error_style data_error_style_username">cwu</div>
             </li>
             <li>
                 <div>phoneNumber:</div>
                 <div>
                     <input type="text" value="{{ data.phoneNumber }}" name="phoneNumber">
                 </div>
+                <div class="data_error_style data_error_style_phoneNumber">cwu</div>
             </li>
             <li>
                 <div>useremail:</div>
                 <div>
                     <input type="text" value="{{ data.useremail }}" name="useremail">
                 </div>
+                <div class="data_error_style data_error_style_useremail">cwu</div>
             </li>
             <li>
                 <div>userPassword:</div>
                 <div>
                     <input type="text" value="{{ data.userPassword }}" name="userPassword">
                 </div>
+                <div class="data_error_style data_error_style_userPassword">cwu</div>
             </li>
         </ul>
 
@@ -90,10 +119,15 @@
             </li>
             <li class="user_personage_data_portraitImage">
                 <div>portraitImage:</div>
-                <div>
-                    <img src="{{ data_content.portraitImage.url }}" width="150" height="150">
+                <div class="user_data_image">
+                    {% if data_content.portraitImage %}
+                        <img src="{{ data_content.portraitImage.url }}" width="150" height="150">
+                    {% else %}
+                        <img src="{{ MEDIA_URL }}UserPortrait\75994211_p0.jpg" width="150" height="150">
+                    {% endif %}
                 </div>
-                <input type="file" name="" class="user_personage_data_file_portraitImage">
+                <input type="file" name="file_image" class="user_personage_data_file_portraitImage">
+                <div class="file_image_error">错误</div>
             </li>
         </ul>
 

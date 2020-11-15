@@ -340,7 +340,7 @@ def UserPortrait(request):  # images = request.FILES.get('image')
             return JsonResponse({
                 "code": 206,
                 "datas": {
-                    "reaction": "图片超过2M", # 图片超过2M
+                    "reaction": "图片超过2M",  # 图片超过2M
                     "errors": "图片超过2M"
                 }
             })
@@ -351,4 +351,39 @@ def UserPortrait(request):  # images = request.FILES.get('image')
                 "reaction": "file type error",  # 文件类型错误
                 "errors": "文件类型错误"
             }
+        })
+
+
+# 购物车
+def shopping_trolley_page(request):
+    return render(request, 'userLoginData/shopping_trolley_page.html')
+
+
+# 我的商店
+def my_shop(request):
+    return render(request, 'userLoginData/my_shop.html')
+
+
+# 开启商店权限api
+def open_shop_jurisdiction_api(request):
+    user_phone = request.POST.get('shop_phone')
+    user = UserDataModels.objects.filter(phoneNumber=user_phone)
+
+    if not user:
+        return JsonResponse({
+            'code': 400,
+            'datas': 'user_error'  # 无改用户
+        })
+
+    # 检查是否开启商店
+    if user.first().shop == 0:
+        # user.update(shop=1)
+        return JsonResponse({
+            'code': 200,
+            'datas': 'ok'
+        })
+    else:
+        return JsonResponse({
+            'code': 400,
+            'datas': 'error'
         })

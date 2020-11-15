@@ -17,5 +17,8 @@ urlpatterns = [
     path('user/myInformation/', views.myInformation, name='myInformation'),  # 我的信息页面
     path('user/modificationUserNameContent/', views.modification_userName, ),  # 修改昵称 和 签名
     path('user/myProfile/', views.myProfile, name="myProfile"),  # 我的头像页面
-    path('user/UserPortrait/', views.UserPortrait, )  # 用户头衔
+    path('user/UserPortrait/', views.UserPortrait, ),  # 用户头衔
+    path('user/shoppinTtrolley/', views.shopping_trolley_page, name="shoppinTtrolley"),  # 购物车
+    path('user/myShop/', views.my_shop, name='myShop'),  # 我的商店
+    path('user/addShopJurisdiction/', views.open_shop_jurisdiction_api, )  # 添加商店api
 ]

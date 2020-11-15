@@ -1,0 +1,14 @@
+{% if user_datas.shop == 0 %}
+    <div class="not_open_shop_style messagedatas">
+        <div class="not_open_shop_text">你还未开启商店</div>
+        <div class="Shop_button_location">
+            <div class="Open_the_shop">开启商店</div>
+        </div>
+    </div>
+{% elif user_datas.shop == 1 %}
+    <div class="shop_list">
+        <div class="all_the_goods">全部商品</div>
+        <div class="add_Merchandise">添加商品</div>
+        <div class="Delete_the_goods">删除商品</div>
+    </div>
+{% endif %}

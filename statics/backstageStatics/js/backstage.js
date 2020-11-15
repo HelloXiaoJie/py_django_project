@@ -238,11 +238,47 @@ $(function () {
             $('.personal_icon_image img').attr({'src': URL.createObjectURL(this.files[0])})
         })
     };
+    // 头像设置/backstageUserData/user_pk页面
+    BackstageUserData.prototype.head_portrait_set_1 = function (self) {
+        $('.user_personage_data_portraitImage input[name="file_image"]').bind('change', function () {
+            if (!this.files[0]) {
+                return
+            }
+            if (!(this.files[0].type === 'image/png' || this.files[0].type === 'image/jpeg')) {
+                self.head_portrait_file_error_1('文件类型错误');
+                return;
+            }
+            if (this.files[0].size > 2097152) {
+                self.head_portrait_file_error_1('图片大于2M');
+                return;
+            }
+            self.head_portrait_image = this.files[0];
+            self.image_file_change = true;
+            $('.user_data_image img').attr({'src': URL.createObjectURL(this.files[0])})
+        })
+    };
+    // 检查用户签名是否改变
+    BackstageUserData.prototype.change_user_idiograph = function (self) {
+        $('.user_personage_data_signatureText textarea').bind('change', function () {
+            self.signatureText_change = true;
+            self.user_signatureText_content = $(this).val();
+        })
+    };
     // 头像变量
     BackstageUserData.prototype.head_portrait_image = null;
+    // 图片文件是否改变
+    BackstageUserData.prototype.image_file_change = false;
+    // 用户签名是否改变
+    BackstageUserData.prototype.signatureText_change = false;
+    // 用户签名内容
+    BackstageUserData.prototype.user_signatureText_content = null;
     //处理头像文件错误
     BackstageUserData.prototype.head_portrait_file_error = function (error_text) {
         $('.image_file_error').text(error_text).css({'display': 'inline-block'})
+    };
+
+    BackstageUserData.prototype.head_portrait_file_error_1 = function (error_text) {
+        $('.file_image_error').text(error_text).css({'display': 'inline-block'})
     };
     // 点击头像文件错误提示消失
     BackstageUserData.prototype.head_portrait_hide = function () {
@@ -250,19 +286,113 @@ $(function () {
             $('.image_file_error').text('').css({'display': 'none'})
         })
     };
+    BackstageUserData.prototype.head_portrait_hide_1 = function () {
+        $('.user_personage_data_portraitImage input[name="file_image"]').click(function () {
+            $('.file_image_error').text('').css({'display': 'none'})
+        })
+    };
     // 修改用户数据
-    BackstageUserData.prototype.user_data_modification = function () {
+    BackstageUserData.prototype.user_data_modification = function (self) {
         $('.save_data').click(function () {
             let pk = $('input[name="user_pk"]');
             let username = $('.modification_data input[name="username"]');
             let phoneNumber = $('.modification_data input[name="phoneNumber"]');
             let useremail = $('.modification_data input[name="useremail"]');
             let userPassword = $('.modification_data input[name="userPassword"]');
-            let idiograph = $('.idiograph textarea');
+            // let idiograph = $('.user_personage_data_signatureText textarea');
             let csrf_token = $('input[name="csrfmiddlewaretoken"]');
             let datas = new FormData();
-            datas.append();
-            $.post('', {})
+            datas.append('pk', pk.val());
+            datas.append('username', username.val());
+            datas.append('phoneNumber', phoneNumber.val());
+            datas.append('useremail', useremail.val());
+            datas.append('userPassword', userPassword.val());
+            // datas.append('signatureText', idiograph.val());
+            datas.append('csrfmiddlewaretoken', csrf_token.val());
+            datas.append('portraitImage', self.head_portrait_image);
+            datas.append('signatureText', self.user_signatureText_content);
+            datas.append('image_file_change', self.image_file_change);
+            datas.append('signatureText_change', self.signatureText_change);
+            // console.log(self.user_signatureText_content);
+            $.ajax({
+                url: 'http://127.0.0.1:8000/backstageUserData/modificationuserApi/',
+                type: 'post',
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                data: datas,
+                success: function (datas) {
+                    self.image_file_change = false;
+                    self.signatureText_change = false;
+                    if (datas.code === 200 && datas.datas === 'data_uniformity') {
+                        location.replace('/backstageUserData/')
+                    } else if (datas.code === 200 && datas.datas === 'modify_successfully') {
+                        alert('修改成功');
+                    } else if (datas.code === 400) {
+                        console.log(datas.datas);
+                        if (datas.datas['username']) {
+                            self.user_data_update_error_show($('.data_error_style_username'), datas.datas['username'])
+                        }
+                        if (datas.datas['phoneNumber']) {
+                            self.user_data_update_error_show($('.data_error_style_phoneNumber'), datas.datas['phoneNumber'])
+                        }
+                        if (datas.datas['userPassword']) {
+                            self.user_data_update_error_show($('.data_error_style_userPassword'), datas.datas['userPassword'])
+                        }
+                        if (datas.datas['useremail']) {
+                            self.user_data_update_error_show($('.data_error_style_useremail'), datas.datas['useremail'])
+                        }
+                    }
+                }
+            })
+        })
+    };
+
+    // 用户数据更新错误提示
+    BackstageUserData.prototype.user_data_update_error_show = function (error_object, error_text) {
+        error_object.text(error_text);
+        error_object.css({'display': 'inline-block'});
+
+        $(error_object.siblings()[1]).children().click(function () {
+            error_object.text('').hide()
+        })
+    };
+
+    // 删除
+    BackstageUserData.prototype.delete_user_data = function (self) {
+        $('.delete_data').click(function () {
+            // 获取用户id
+            // let user_pk = $('input[name="user_pk"]').val();
+            let data_list = [];
+            data_list.push($('input[name="user_pk"]').val());
+            $('.delete_background').show();
+            $('.delete_affirm').show();
+            let delete_class_data = $('.delete_class_data > ul');
+            let name = $('input[name="username"]').val();
+            let phone = $('input[name="phoneNumber"]').val();
+            let li = $('<li>username:<div class="username">' + name + '</div>phone:<div class="userphone">' + phone + '</div></li>')
+            delete_class_data.append(li);
+            $('.delete').click(function () {
+                $.post('http://127.0.0.1:8000/backstageUserData/deleteUser/',
+                    {
+                        data_list,
+                        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+                    },
+                    function (datas, status) {
+                        if (status === 'success') {
+                            console.log(datas);
+                            if (datas.code === 200) {
+                                location.replace('/backstageUserData/')
+                            }
+                        }
+                    })
+            });
+            $('.no_delete').click(function () {
+                $('.delete_class_data > ul').empty();
+                // 隐藏样式
+                $('.delete_background').hide();
+                $('.delete_affirm').hide();
+            });
         })
     };
 
@@ -272,7 +402,12 @@ $(function () {
         self.show_add_user_content_page();
         self.post_add_user_data(self);
         self.head_portrait_set(self);
-        self.head_portrait_hide()
+        self.head_portrait_hide();
+        self.head_portrait_hide_1();
+        self.head_portrait_set_1(self);
+        self.user_data_modification(self);
+        self.change_user_idiograph(self);
+        self.delete_user_data(self);
     };
     const backstageUserData_Method = new BackstageUserData();
     backstageUserData_Method.run()

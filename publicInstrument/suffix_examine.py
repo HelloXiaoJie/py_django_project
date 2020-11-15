@@ -1,3 +1,4 @@
+# 自定义文件过滤器 -> 图片
 def suffix_check(file_name, suffix_list):
     if file_name.split('.')[-1].lower() in suffix_list:
         return True

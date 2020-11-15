@@ -12,7 +12,7 @@
             {% if user_datas.username %}
                 {#                头像#}
                 <div class="UserProfile">
-                    <img src="{{ MEDIA_URL }}{{ user_content.userdatamodelscontext__portraitImage }}" alt="" width="50" height="50">
+                    <img src="{{ MEDIA_URL }}{{ user_content.usercontent__portraitImage }}" alt="" width="50" height="50">
                 </div>
                 <div class="login">
                     <a href="#">{{ user_datas.username }}</a>
@@ -25,7 +25,7 @@
                 <div class="login"><a href={% url 'user:UserLogin' %}>登录</a></div>
             {% endif %}
             {#            购物车#}
-            <div class="shopping"><a href="#">购物车</a></div>
+            <div class="shopping"><a href="{% url 'user:shoppinTtrolley' %}">购物车</a></div>
             {#            收藏夹#}
             <div class="favorite"><a href="#">收藏夹</a></div>
             {#            订单#}

@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小饼干</title>
+    <link rel="icon" href="{% static 'publicfiles/images/20201004123735580_easyicon_net_16.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'indexStatics/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'UserDataStatics/css/shopping_trolley.css' %}">
+    <script src="{% static 'publicfiles/js/jquery-3.5.1.js' %}"></script>
+    <script src="{% static 'UserDataStatics/js/UserData.js' %}"></script>
+</head>
+<body>
+{% include 'head_template/head.html' %}
+
+{% include 'search.html' %}
+<div class="Body">
+    <div class="BodyConter">
+
+    </div>
+</div>
+</body>
+</html>
