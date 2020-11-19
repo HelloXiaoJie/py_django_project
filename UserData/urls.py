@@ -20,5 +20,7 @@ urlpatterns = [
     path('user/UserPortrait/', views.UserPortrait, ),  # 用户头衔
     path('user/shoppinTtrolley/', views.shopping_trolley_page, name="shoppinTtrolley"),  # 购物车
     path('user/myShop/', views.my_shop, name='myShop'),  # 我的商店
-    path('user/addShopJurisdiction/', views.open_shop_jurisdiction_api, )  # 添加商店api
+    path('user/addShopJurisdiction/', views.open_shop_jurisdiction_api, ),  # 添加商店api
+    path('user/addShop/', views.add_shop, name="addShop"),  # 添加商店页面
+    path('user/addShopApi/', views.add_shop_data_aip, ),  # 添加商品api
 ]

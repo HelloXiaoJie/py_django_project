@@ -316,7 +316,7 @@ $(function () {
             // console.log(self.user_signatureText_content);
             $.ajax({
                 url: 'http://127.0.0.1:8000/backstageUserData/modificationuserApi/',
-                type: 'post',
+                type: 'POST',
                 processData: false,
                 contentType: false,
                 dataType: 'json',

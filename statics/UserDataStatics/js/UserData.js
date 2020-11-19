@@ -321,15 +321,14 @@ $(function () {
             } else {
                 return
             }
-            let shop_phone = $('input[name="shop_phone"]').val();
             $.post('http://127.0.0.1:8000/user/addShopJurisdiction/', {
-                'shop_phone': shop_phone,
+                'openShop': 1,
                 'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
             }, function (datas, status) {
                 if (status === 'success') {
                     if (datas.code === 200) {
                         location.replace('/user/myShop/')
-                    }else if (datas.code === 400) {
+                    } else if (datas.code === 400) {
                         console.log('错误');
                     }
                 }
@@ -353,6 +352,105 @@ $(function () {
             errorClass.text('').end().hide();
         });
     };
+    // 监控input_file 是否有图片
+    UserData.prototype.monitoring_image = function (self) {
+        $('.button_style input[name="button_style_image"]').bind('change', function () {
+            if (!self.change_image(this.files[0], self)) {
+                return
+            } else {
+                $('.image_show').css({'display': 'inline-block'});
+                $('.image_show > img').attr({'src': URL.createObjectURL(this.files[0])})
+            }
+        })
+    };
+    // 图片变量
+    UserData.prototype.image_file = null;
+    // 检查图片是否符合要求
+    UserData.prototype.change_image = function (files, self) {
+        if (!files) {
+            // console.log('无文件');
+            return false
+        }
+        if (!(files.type === 'image/png' || files.type === 'image/jpeg')) {
+            self.head_portrait_image_error('文件类型错误');
+            // console.log('文件类型错误');
+            return false
+        }
+        if (files.size > 2097152) {
+            self.head_portrait_image_error('图片大于2M');
+            // console.log('图片大于2M');
+            return false
+        }
+        self.image_file = files;
+        $('.shop_image_style span').text('').css({'display': 'none'});
+        return true
+        // $('.personal_icon_image img').attr({'src': URL.createObjectURL(this.files[0])})
+    };
+    // 处理图片错误
+    UserData.prototype.head_portrait_image_error = function (error) {
+        $('.shop_image_style span').text(error).css({'display': 'inline'})
+    };
+    // 发送添加商品
+    UserData.prototype.send_shop_data = function (self) {
+        $('.submit_style').click(function () {
+            let shop_name = $('input[name="shopName"]').val();
+            let shop_shopPrice = $('input[name="shopPrice"]').val();
+            let shop_quantity = $('input[name="shopQuantity"]').val();
+            let shop_image = self.image_file;
+            let shop_datas = new FormData();
+            shop_datas.append('shopName', shop_name);
+            shop_datas.append('shopPrice', shop_shopPrice);
+            shop_datas.append('shopQuantity', shop_quantity);
+            shop_datas.append('shopImage', shop_image);
+            shop_datas.append('csrfmiddlewaretoken', $('input[name="csrfmiddlewaretoken"]').val());
+            $.ajax({
+                url: 'http://127.0.0.1:8000/user/addShopApi/',
+                type: 'post',
+                contentType: false,
+                data: shop_datas,
+                dataType: 'json',
+                processData: false,
+                success: function (datas) {
+                    if (datas.code === 200) {
+                        alert('添加成功');
+                        location.replace('/user/myShop/');
+                        return
+                    }
+                    console.log(datas.datas);
+                    if (datas.datas['shopImage']) {
+                        let shop_object = $('input[name="shopName"]');
+                        shop_object.parent().find('span').remove();
+                        let error_html = $('<span style="color: #e1251b;margin-left: 20px">' + datas.datas['shopImage'][0]['message'] + '</span>');
+                        shop_object.after(error_html)
+                    }
+                    if (datas.datas['shopPrice']) {
+                        let shop_object = $('input[name="shopPrice"]');
+                        shop_object.parent().find('span').remove();
+                        let error_html = $('<span style="color: #e1251b;margin-left: 20px">' + datas.datas['shopPrice'][0]['message'] + '</span>');
+                        shop_object.after(error_html)
+                    }
+                    if (datas.datas['shopQuantity']) {
+                        let shop_object = $('input[name="shopQuantity"]');
+                        shop_object.parent().find('span').remove();
+                        let error_html = $('<span style="color: #e1251b;margin-left: 20px">' + datas.datas['shopQuantity'][0]['message'] + '</span>');
+                        shop_object.after(error_html)
+                    }
+                    if (datas.datas['shopImage']) {
+                        console.log(datas.datas['shopImage']);
+                        $('.shop_image_style span').text(datas.datas['shopQuantity'][0]['message']).css({'display': 'inline-block'});
+                    }
+                }
+            })
+        })
+    };
+    // 错误点击input隐藏错误提示
+    UserData.prototype.shop_error_hide = function () {
+        $('.shop_general_style').each(function () {
+            $(this).click(function () {
+                $(this).find('span').remove()
+            });
+        })
+    };
     const userdatamethods = new UserData();
     UserData.prototype.run = function () {
         const self = this;
@@ -366,7 +464,10 @@ $(function () {
         self.modification_userName(self);
         self.UserPortrait(self);
         self.newEmail(self);
-        self.open_Shop()
+        self.open_Shop();
+        self.monitoring_image(self);
+        self.send_shop_data(self);
+        self.shop_error_hide()
     };
     userdatamethods.run()
 });

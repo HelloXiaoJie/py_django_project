@@ -123,3 +123,9 @@ class UserSignature(forms.Form):
 
 class UserImage(forms.Form):
     image = forms.ImageField(validators=[validators.FileExtensionValidator(allowed_extensions=['jpg', 'png']), ])
+
+class add_Shop_data(forms.Form):
+    shopName = forms.CharField()
+    shopPrice = forms.CharField()
+    shopQuantity = forms.CharField()
+    shopImage = forms.ImageField()

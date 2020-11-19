@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.template.context_processors import csrf
-from .models import UserDataModels, UserDataModelsContext
+from .models import UserDataModels, UserDataModelsContext, UserShop
 from . import formdata
 from django.shortcuts import redirect, reverse
 from customDecorator.CheckTheLogin import examineLogin
@@ -361,14 +361,16 @@ def shopping_trolley_page(request):
 
 # 我的商店
 def my_shop(request):
-    return render(request, 'userLoginData/my_shop.html')
+    # 用户商品的数量
+    user_shop_number = UserDataModels.objects.filter(phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).first()
+    # 该用户所有的商品
+    return render(request, 'userLoginData/my_shop.html', context={'user_shop_number': user_shop_number.usershop_set.count()})
 
 
 # 开启商店权限api
 def open_shop_jurisdiction_api(request):
-    user_phone = request.POST.get('shop_phone')
-    user = UserDataModels.objects.filter(phoneNumber=user_phone)
-
+    user_phone = request.POST.get('openShop')  # 1
+    user = UserDataModels.objects.filter(phoneNumber=request.user_datas.get('userdatas').get('phoneNumber'))
     if not user:
         return JsonResponse({
             'code': 400,
@@ -377,7 +379,7 @@ def open_shop_jurisdiction_api(request):
 
     # 检查是否开启商店
     if user.first().shop == 0:
-        # user.update(shop=1)
+        user.update(shop=user_phone)
         return JsonResponse({
             'code': 200,
             'datas': 'ok'
@@ -386,4 +388,33 @@ def open_shop_jurisdiction_api(request):
         return JsonResponse({
             'code': 400,
             'datas': 'error'
+        })
+
+
+# 添加商品页面
+def add_shop(request):
+    return render(request, 'add_shop/add_shop.html')
+
+
+# 添加商店api
+def add_shop_data_aip(request):
+    datas = formdata.add_Shop_data(request.POST, request.FILES)
+    if datas.is_valid():
+        user = UserDataModels.objects.filter(phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).first()
+        usershop = UserShop.objects.create(
+            shopName=datas.cleaned_data.get('shopName'),
+            shopPrice=datas.cleaned_data.get('shopPrice'),
+            shopQuantity=datas.cleaned_data.get('shopQuantity'),
+            shopImage=datas.cleaned_data.get('shopImage'),
+            shopUser=user
+        )
+        usershop.save()
+        return JsonResponse({
+            'code': 200,
+            'datas': ''
+        })
+    else:
+        return JsonResponse({
+            'code': 400,
+            'datas': datas.errors.get_json_data()
         })

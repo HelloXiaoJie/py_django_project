@@ -37,10 +37,13 @@ class UserShop(models.Model):
     shopPrice = models.IntegerField()
     # 商品数量
     shopQuantity = models.IntegerField()
+    # 商品图片
+    shopImage = models.ImageField(upload_to='shopImages', null=True)
+
     # 月销售量
-    monthlySales = models.IntegerField()
+    monthlySales = models.IntegerField(null=True, default=0)
     # 收藏数量
-    salesQuantity = models.IntegerField()
+    salesQuantity = models.IntegerField(null=True, default=0)
 
     class Meta:
         db_table = 'userShop'
