@@ -24,6 +24,12 @@
                 <div class="add_Merchandise"><a href="{% url 'user:addShop' %}" style="color: black;">添加商品</a></div>
                 <div class="Delete_the_goods">删除商品</div>
             </div>
+            {% for shop in all_shop %}
+                <div>{{ shop.shopName }}</div>
+                <div>{{ shop.shopPrice }}</div>
+                <div>{{ shop.shopQuantity }}</div>
+                <img src="{{ MEDIA_URL }}{{ shop.shopImage }}" alt="" width="150" height="150">
+            {% endfor %}
         {% endif %}
 
     </div>

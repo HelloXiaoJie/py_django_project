@@ -364,7 +364,11 @@ def my_shop(request):
     # 用户商品的数量
     user_shop_number = UserDataModels.objects.filter(phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).first()
     # 该用户所有的商品
-    return render(request, 'userLoginData/my_shop.html', context={'user_shop_number': user_shop_number.usershop_set.count()})
+    all_shop = UserShop.objects.filter(shopUser__phoneNumber=request.user_datas.get('userdatas').get('phoneNumber'))
+    return render(request, 'userLoginData/my_shop.html', context={
+        'user_shop_number': user_shop_number.usershop_set.count(),
+        'all_shop': all_shop
+    })
 
 
 # 开启商店权限api
