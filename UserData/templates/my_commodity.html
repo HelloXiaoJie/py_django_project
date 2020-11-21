@@ -25,6 +25,7 @@
                 <div class="Delete_the_goods">删除商品</div>
             </div>
             {% for shop in all_shop %}
+<<<<<<< HEAD
                 {#                商品介绍#}
                 <div class="shop_introduce">
                     <div class="shop_name shop_currency_style">商品名称:{{ shop.shopName }}</div>
@@ -33,6 +34,12 @@
                     <img src="{{ MEDIA_URL }}{{ shop.shopImage }}" alt="" width="150" height="150">
                     <input type="checkbox" value="{{ shop.pk }}">
                 </div>
+=======
+                <div>{{ shop.shopName }}</div>
+                <div>{{ shop.shopPrice }}</div>
+                <div>{{ shop.shopQuantity }}</div>
+                <img src="{{ MEDIA_URL }}{{ shop.shopImage }}" alt="" width="150" height="150">
+>>>>>>> index_1/master
             {% endfor %}
         {% endif %}
 

@@ -451,6 +451,7 @@ $(function () {
             });
         })
     };
+<<<<<<< HEAD
     // 删除商品列表
     UserData.prototype.delete_shop_list = [];
     // 删除按钮是否可用
@@ -520,6 +521,8 @@ $(function () {
             });
         })
     };
+=======
+>>>>>>> index_1/master
     const userdatamethods = new UserData();
     UserData.prototype.run = function () {
         const self = this;
@@ -536,9 +539,13 @@ $(function () {
         self.open_Shop();
         self.monitoring_image(self);
         self.send_shop_data(self);
+<<<<<<< HEAD
         self.shop_error_hide();
         self.shop_checkbox_delete(self);
         self.monitor_delete_submit(self);
+=======
+        self.shop_error_hide()
+>>>>>>> index_1/master
     };
     userdatamethods.run()
 });

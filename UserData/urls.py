@@ -23,5 +23,8 @@ urlpatterns = [
     path('user/addShopJurisdiction/', views.open_shop_jurisdiction_api, ),  # 添加商店api
     path('user/addShop/', views.add_shop, name="addShop"),  # 添加商店页面
     path('user/addShopApi/', views.add_shop_data_aip, ),  # 添加商品api
+<<<<<<< HEAD
     path('user/deleteShop/', views.delete_user_shop_api, )  # 删除用户商品api
+=======
+>>>>>>> index_1/master
 ]
