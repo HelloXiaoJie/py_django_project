@@ -1,0 +1,50 @@
+{% extends 'userLoginDataBase/userLoginDataBase.html' %}
+{% load static %}
+
+{% block externalFiles %}
+    <link rel="stylesheet" href="{% static 'indexStatics/css/index.css' %}">
+    <link href="{% static 'UserDataStatics/css/UserData.css' %}" rel="stylesheet">
+    <script src="{% static 'publicfiles/js/jquery-3.5.1.js' %}"></script>
+    <script src="{% static 'UserDataStatics/js/UserData.js' %}"></script>
+{% endblock %}
+
+{% block head %}
+    {% include 'head_template/head.html' %}
+{% endblock %}
+
+{% block diyApi %}
+    {#    背景颜色#}
+    <div class="add_shop_background">
+        {#        商品价格#}
+        <div class="shop_general_style">
+            商品名称
+            <input type="text" name="shopName">
+{#            <span style="color: #e1251b;">错误</span>#}
+        </div>
+        <div class="shop_general_style">
+            商品价格
+            <input type="text" name="shopPrice">
+        </div>
+        <div class="shop_general_style">
+            商品数量
+            <input type="text" name="shopQuantity">
+        </div>
+        <div class="shop_image_style">
+            商品图片
+            {#            自定义按钮和文件按钮#}
+            <div class="button_style">
+                <div class="shop_select">选择图片</div>
+                <input type="file" name="button_style_image">
+            </div>
+            {#            图片显示#}
+            <div class="image_show">
+                <img src="" width="150" height="150">
+            </div>
+            <span style="color: #e1251b;position: absolute;left: 420px;display: none">错误</span>
+        </div>
+        {#        提交商品#}
+        <div class="submit_shop">
+            <div class="submit_style">提交商品</div>
+        </div>
+    </div>
+{% endblock %}

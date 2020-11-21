@@ -1,0 +1,35 @@
+{% load static %}
+<div class="TopHead">
+    {#    居中#}
+    <div class="centerContext">
+        {#        左内容#}
+        <div class="leftContext">
+            <span><a href="{% url 'index:index' %}">hello django</a></span>
+        </div>
+        {#        右内容#}
+        <div class="rightContext">
+            {#            登录#}
+            {% if user_datas.username %}
+                {#                头像#}
+                <div class="UserProfile">
+                    <img src="{{ MEDIA_URL }}{{ user_content.usercontent__portraitImage }}" alt="" width="50" height="50">
+                </div>
+                <div class="login">
+                    <a href="#">{{ user_datas.username }}</a>
+                </div>
+                <span class="loginOperation">
+                    <span><a href="{% url 'user:personageCentre' %}" style="color: black;">个人中心</a></span>
+                    <span><a href="{% url 'user:UserQuit' %}" style="color: black;">退出</a></span>
+                </span>
+            {% elif user_datas == None %}
+                <div class="login"><a href={% url 'user:UserLogin' %}>登录</a></div>
+            {% endif %}
+            {#            购物车#}
+            <div class="shopping"><a href="{% url 'user:shoppinTtrolley' %}">购物车</a></div>
+            {#            收藏夹#}
+            <div class="favorite"><a href="#">收藏夹</a></div>
+            {#            订单#}
+            <div class="indent"><a href="#">订单</a></div>
+        </div>
+    </div>
+</div>

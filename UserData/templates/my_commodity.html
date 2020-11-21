@@ -1,0 +1,40 @@
+{% if user_datas.shop == 0 %}
+    <div class="not_open_shop_style messagedatas">
+        <div class="not_open_shop_text">你还未开启商店</div>
+        <div class="Shop_button_location">
+            <div class="Open_the_shop">开启商店</div>
+        </div>
+    </div>
+{% elif user_datas.shop == 1 %}
+    <div class="shop_list">
+        {% if user_shop_number == 0 %}
+            {#    显示用户商品的数量#}
+            <div class="all_the_goods">全部商品 <span style="color: #e1251b">{{ user_shop_number }}</span></div>
+            <div class="shop_operation">
+                <div class="add_Merchandise"><a href="{% url 'user:addShop' %}" style="color: black;">添加商品</a></div>
+            </div>
+            {#        商品#}
+            <div class="not_have_shop">
+                <a href="{% url 'user:addShop' %}" style="color:black">无商品,点击添加商品</a>
+            </div>
+        {% elif user_shop_number > 0 %}
+            {#    显示用户商品的数量#}
+            <div class="all_the_goods">全部商品 <span style="color: #e1251b">{{ user_shop_number }}</span></div>
+            <div class="shop_operation">
+                <div class="add_Merchandise"><a href="{% url 'user:addShop' %}" style="color: black;">添加商品</a></div>
+                <div class="Delete_the_goods">删除商品</div>
+            </div>
+            {% for shop in all_shop %}
+                {#                商品介绍#}
+                <div class="shop_introduce">
+                    <div class="shop_name shop_currency_style">商品名称:{{ shop.shopName }}</div>
+                    <div class="shop_Price shop_currency_style">商品价格:{{ shop.shopPrice }}</div>
+                    <div class="shop_Quantity shop_currency_style">商品数量:{{ shop.shopQuantity }}</div>
+                    <img src="{{ MEDIA_URL }}{{ shop.shopImage }}" alt="" width="150" height="150">
+                    <input type="checkbox" value="{{ shop.pk }}">
+                </div>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+{% endif %}

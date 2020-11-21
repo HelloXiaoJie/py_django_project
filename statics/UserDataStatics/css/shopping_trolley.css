@@ -1,0 +1,127 @@
+.not_open_shop_text {
+    font-size: 70px;
+    /*border: 1px solid;*/
+    text-align: center;
+    margin-top: 20px;
+}
+
+.Shop_button_location {
+    text-align: center;
+}
+
+.Open_the_shop {
+    margin-top: 60px;
+    border-radius: 5px;
+    border: 1px solid;
+    display: inline-block;
+    font-size: 20px;
+    width: 134px;
+    height: 45px;
+    background-color: #e1251b;
+    color: white;
+    line-height: 45px;
+    cursor: pointer;
+}
+
+.Open_the_shop:hover {
+    background-color: rgba(246, 45, 33, 0.95);
+}
+
+.shop_list {
+    width: 760px;
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    margin-top: 20px;
+    float: right;
+    margin-right: 20px;
+    position: relative;
+    /*position: relative;*/
+}
+
+.all_the_goods {
+    display: inline-block;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.add_Merchandise {
+    width: 100px;
+    height: 40px;
+    background-color: #006DD4;
+    text-align: center;
+    line-height: 40px;
+    color: white;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.add_Merchandise:hover {
+    background-color: rgba(0, 132, 239, 0.95);
+}
+
+.Delete_the_goods {
+    width: 100px;
+    height: 40px;
+    background-color: #e1251b;
+    text-align: center;
+    line-height: 40px;
+    color: white;
+    font-size: 20px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-left: 20px;
+    cursor: not-allowed;
+}
+
+
+.Delete_the_goods_cursor:hover {
+    background-color: rgba(255, 47, 31, 0.95);
+}
+
+.not_have_shop {
+    width: 100%;
+    height: 250px;
+    display: inline-block;
+    text-align: center;
+    line-height: 250px;
+    font-size: 65px;
+}
+
+.shop_operation {
+    display: inline-block;
+    position: absolute;
+    top: 15px;
+    left: 515px;
+}
+
+.shop_introduce {
+    width: 100%;
+    height: 170px;
+    display: inline-block;
+    /*border: 1px solid;*/
+    line-height: 170px;
+    position: relative;
+    margin-top: 20px;
+}
+
+.shop_introduce > img {
+    position: absolute;
+    top: 10px;
+    left: 480px;
+}
+
+.shop_introduce > input {
+    position: absolute;
+    top: 80px;
+    left: 700px;
+}
+
+.shop_currency_style {
+    display: inline-block;
+    line-height: normal;
+    margin-left: 20px;
+}
+

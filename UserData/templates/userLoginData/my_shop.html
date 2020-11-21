@@ -1,0 +1,55 @@
+{% extends 'userLoginDataBase/userLoginDataBase.html' %}
+{% load static %}
+
+{% block externalFiles %}
+    <link rel="stylesheet" href="{% static 'indexStatics/css/index.css' %}">
+    <link href="{% static 'UserDataStatics/css/UserData.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'UserDataStatics/css/shopping_trolley.css' %}">
+    <script src="{% static 'publicfiles/js/jquery-3.5.1.js' %}"></script>
+    <script src="{% static 'UserDataStatics/js/UserData.js' %}"></script>
+{% endblock %}
+
+{% block head %}
+    {% include 'head_template/head.html' %}
+{% endblock %}
+
+{% block selectData %}
+    <input type="hidden" value="{{ user_datas.username }}" name="shop_name">
+    <div class="selectMessage">
+        {#            账号设置#}
+        <div class="AccountSettingstext">
+            <div class="setImage"></div>
+            <span>账号设置</span>
+        </div>
+        <div class="dataModification">
+            <a href="{% url 'user:accountInformation' %}">
+                <div class="InformationStyle">
+                    <div class="pitchDotImage"></div>
+                    <span>账号信息</span>
+                </div>
+            </a>
+            <a href="{% url 'user:myInformation' %}">
+                <div class="InformationStyle">
+                    <div class="pitchDotImage"></div>
+                    <span>我的信息</span>
+                </div>
+            </a>
+            <a href="{% url 'user:myProfile' %}">
+                <div class="InformationStyle">
+                    <div class="pitchDotImage"></div>
+                    <span>头像设置</span>
+                </div>
+            </a>
+            <a href="#">
+                <div class="InformationStyleBackgroundResident">
+                    <div class="pitchRightImageResident"></div>
+                    <span style="color: black">我的商店</span>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block modificationData %}
+    {% include 'my_commodity.html' %}
+{% endblock %}

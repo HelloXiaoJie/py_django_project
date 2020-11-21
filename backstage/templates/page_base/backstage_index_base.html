@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="{% static 'publicfiles/images/20201004123735580_easyicon_net_16.ico' %}" rel="icon" type="image/x-icon">
+    {% block external_file %}{% endblock %}
+</head>
+<body>
+{#左边选择栏#}
+{% block left_label %}{% endblock %}
+
+{#右边显示信息#}
+{% block right_label %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,116 @@
+{% load customFilter %}
+<div class="modificationUserBackground"></div>
+<div class="UserBody">
+    <input type="hidden" value="{{ csrf_token }}" name="csrfmiddlewaretoken">
+    {#    居中内容#}
+    <div class="contentBody">
+        {#        选择信息#}
+        <div class="selectMessage">
+            {#            账号设置#}
+            <div class="AccountSettingstext">
+                <div class="setImage"></div>
+                <span>账号设置</span>
+            </div>
+            <div class="dataModification">
+                <div class="InformationStyleBackgroundResident">
+                    <div class="pitchRightImageResident"></div>
+                    <span style="color: black">账号信息</span></div>
+                <div class="InformationStyle">
+                    <div class="pitchDotImage"></div>
+                    <span>我的信息</span></div>
+                <div class="InformationStyle">
+                    <div class="pitchDotImage"></div>
+                    <span>头像设置</span></div>
+            </div>
+        </div>
+        {#        需要修改的数据#}
+        <div class="messagedatas">
+            {#            修改边框#}
+            <div class="modificationBorder">
+                <ul>
+                    <li>
+                        <div class="UserDatasGeneralStyle">
+                            {#                            关闭#}
+                            <div class="closeUserModification">
+                                <div class="X"></div>
+                            </div>
+                            {#                            email修改#}
+                            <div class="Modification">
+                                <div class="oldEmail generalFormat">
+                                    <input type="email" placeholder="旧邮箱" name="oldEmail">
+                                </div>
+                                <div class="oldEmailErrortext" style="display: none"></div>
+
+                                <div class="newEmail generalFormat">
+                                    <input type="email" placeholder="新邮箱" name="newEmail">
+                                </div>
+                                <div class="newEmailErrortext" style="display: none"></div>
+
+                                <div class="Email submit">
+                                    提 交
+                                </div>
+                            </div>
+                        </div>
+                        <span>绑定邮箱</span>
+                        <span>{{ user_datas.useremail|emailFilter }}</span>
+                        <span>更换邮箱地址</span>
+                    </li>
+                    <li>
+                        <div class="UserDatasGeneralStyle">
+                            <div class="closeUserModification">
+                                <div class="X"></div>
+                            </div>
+                            <div class="Modification">
+                                <div class="generalFormat">
+                                    <input type="text" placeholder="旧手机号码" name="oldPhoneNumber">
+                                </div>
+                                <div class="oldPhonenumberErrortext" style="display: none"></div>
+
+                                <div class="generalFormat">
+                                    <input type="text" placeholder="新手机号码" name="newPhoneNumber">
+                                </div>
+                                <div class="newPhonenumberErrortext" style="display: none"></div>
+
+                                <div class="PhoneNumber submit">
+                                    提 交
+                                </div>
+                            </div>
+                        </div>
+                        <span>绑定手机</span>
+                        <span>{{ user_datas.phoneNumber|phoneNumber }}</span>
+                        <span>更换手机号码</span>
+                    </li>
+                    <li>
+                        <div class="UserDatasGeneralStyle">
+                            <div class="closeUserModification">
+                                <div class="X"></div>
+                            </div>
+                            <div class="Modification">
+                                <div class="generalFormat">
+                                    <input type="password" placeholder="旧密码" name="oldPassword">
+                                </div>
+                                <div class="PasswordErrortext"></div>
+
+                                <div class="generalFormat">
+                                    <input type="password" placeholder="新密码" name="newPassword1">
+                                </div>
+                                <div class="PhonenumberErrortext1"></div>
+
+                                <div class="generalFormat">
+                                    <input type="password" placeholder="确认密码" name="newPassword2">
+                                </div>
+                                <div class="PhonenumberErrortext2"></div>
+                                <div class="Password submit">
+                                    提 交
+                                </div>
+                            </div>
+                        </div>
+                        <span style="margin-left: 61px">密码</span>
+                        <span>********</span>
+                        <span>更改密码</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

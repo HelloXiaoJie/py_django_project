@@ -1,0 +1,81 @@
+{#背景图#}
+<div class="background_image">
+    {#    返回#}
+    <a href="{% url 'index:index' %}">
+        <div class="return"></div>
+    </a>
+    <input type="hidden" name="csrfmiddlewaretoken" value={{ csrf_token }}>
+    {% if user_datas.username %}
+        {#        文字背景#}
+        <div class="textBackground"></div>
+        <div class="You_have_logged_in">
+            你已登录
+        </div>
+    {% elif user_datas == None %}
+        {#    登录#}
+        <div class="operation">
+            <div class="login">
+                <div class="loginText">账号登录</div>
+                {#            手机号码#}
+                <div class="phoneNumber">
+                    <input type="text" placeholder="手机号码" name="loginPhoneNumber">
+                </div>
+                <span class="userNone" style="color: red;"></span>
+                {#            登陆密码#}
+                <div class="password">
+                    <input type="password" placeholder="密码" name="loginPassword">
+                </div>
+                <span class="userPasswordError" style="color: red;"></span>
+                {#            自动登录#}
+                <div class="voluntarilyLogin">
+                    <input type="checkbox" id="true" name="voluntarilyLogin">
+                </div>
+                <label for="true">
+                    自动登录
+                </label>
+                {#            忘记密码#}
+                <div class="forgetPassword">
+                    <a href="#">忘记密码</a>
+                </div>
+                {#            登录按键#}
+                <div class="loginKey">
+                    登 录
+                </div>
+                {#            注册#}
+                <div class="registerPage">
+                    <span>注册</span>
+                </div>
+            </div>
+        </div>
+        {#    注册#}
+        <div class="register hoid">
+            {% csrf_token %}
+            <div class="userRegister">
+                用户注册
+            </div>
+            <div class="nickname dataBox">
+                <input type="text" placeholder="昵称" name="username">
+            </div>
+            <span class="name_error" style="color: red;"></span>
+            <div class="phoneNumber dataBox">
+                <input type="text" placeholder="手机号码" name="phonenumber">
+            </div>
+            <span class="phonenumber_error" style="color: red;"></span>
+            <div class="password1 dataBox">
+                <input type="password" placeholder="密码" name="password1">
+            </div>
+            <span class="password1_error" style="color: red;"></span>
+            <div class="password2 dataBox">
+                <input type="password" placeholder="确认密码" name="password2">
+            </div>
+            <div class="errortex" style="color: red;">*密码不一致</div>
+            <div class="registerSubmit">
+                <span>提  交</span>
+            </div>
+
+            <div class="loginPage">
+                <span>登录</span>
+            </div>
+        </div>
+    {% endif %}
+</div>
