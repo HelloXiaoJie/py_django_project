@@ -362,12 +362,10 @@ def shopping_trolley_page(request):
 # 我的商店
 def my_shop(request):
     # 用户商品的数量
-<<<<<<< HEAD
     user_shop_number = UserDataModels.objects.filter(
         phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).first()
-=======
-    user_shop_number = UserDataModels.objects.filter(phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).first()
->>>>>>> index_1/master
+    user_shop_number = UserDataModels.objects.filter(
+        phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).first()
     # 该用户所有的商品
     all_shop = UserShop.objects.filter(shopUser__phoneNumber=request.user_datas.get('userdatas').get('phoneNumber'))
     return render(request, 'userLoginData/my_shop.html', context={
@@ -427,7 +425,6 @@ def add_shop_data_aip(request):
             'code': 400,
             'datas': datas.errors.get_json_data()
         })
-<<<<<<< HEAD
 
 
 # 删除用户商品api
@@ -441,5 +438,3 @@ def delete_user_shop_api(request):
         'code': 200,
         'datas': ''
     })
-=======
->>>>>>> index_1/master

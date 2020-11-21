@@ -451,7 +451,6 @@ $(function () {
             });
         })
     };
-<<<<<<< HEAD
     // 删除商品列表
     UserData.prototype.delete_shop_list = [];
     // 删除按钮是否可用
@@ -491,7 +490,7 @@ $(function () {
                 // });
                 $.post('http://127.0.0.1:8000/user/deleteShop/', {
                     'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
-                    'delete_shop_list': [1,2,3,4,5],
+                    'delete_shop_list': [1, 2, 3, 4, 5],
                 }, function (datas, status) {
                     if (status === 'success') {
                         console.log(datas);
@@ -521,8 +520,6 @@ $(function () {
             });
         })
     };
-=======
->>>>>>> index_1/master
     const userdatamethods = new UserData();
     UserData.prototype.run = function () {
         const self = this;
@@ -539,13 +536,9 @@ $(function () {
         self.open_Shop();
         self.monitoring_image(self);
         self.send_shop_data(self);
-<<<<<<< HEAD
         self.shop_error_hide();
         self.shop_checkbox_delete(self);
         self.monitor_delete_submit(self);
-=======
-        self.shop_error_hide()
->>>>>>> index_1/master
     };
     userdatamethods.run()
 });

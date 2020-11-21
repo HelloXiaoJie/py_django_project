@@ -3,3 +3,9 @@ db.sqlite3
 
 # 忽略多媒体图片文件家
 shopImages/
+
+# 忽略__pycache__文件
+__pycache__/
+
+# 忽略 .pyc 文件
+*.pyc
