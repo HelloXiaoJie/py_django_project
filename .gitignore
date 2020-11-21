@@ -1,5 +1,5 @@
 # 忽略数据库文件
-db.sqlite3
+#db.sqlite3
 
 # 忽略多媒体图片文件家
-shopImages/
+#shopImages/
