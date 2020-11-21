@@ -71,7 +71,6 @@
     color: white;
     font-size: 20px;
     border-radius: 5px;
-<<<<<<< HEAD
     display: inline-block;
     margin-left: 20px;
     cursor: not-allowed;
@@ -79,14 +78,7 @@
 
 
 .Delete_the_goods_cursor:hover {
-=======
-    cursor: pointer;
-    display: inline-block;
-    margin-left: 20px;
-}
 
-.Delete_the_goods:hover {
->>>>>>> index_1/master
     background-color: rgba(255, 47, 31, 0.95);
 }
 
@@ -98,17 +90,13 @@
     line-height: 250px;
     font-size: 65px;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> index_1/master
 .shop_operation {
     display: inline-block;
     position: absolute;
     top: 15px;
     left: 515px;
 }
-<<<<<<< HEAD
 
 .shop_introduce {
     width: 100%;
@@ -137,6 +125,3 @@
     line-height: normal;
     margin-left: 20px;
 }
-
-=======
->>>>>>> index_1/master
