@@ -65,7 +65,7 @@
 .Delete_the_goods {
     width: 100px;
     height: 40px;
-    background-color: #e1251b;
+    background-color: #9e9e9e;
     text-align: center;
     line-height: 40px;
     color: white;
@@ -103,25 +103,37 @@
     height: 170px;
     display: inline-block;
     /*border: 1px solid;*/
-    line-height: 170px;
+    /*line-height: 170px;*/
     position: relative;
     margin-top: 20px;
 }
 
-.shop_introduce > img {
-    position: absolute;
-    top: 10px;
-    left: 480px;
-}
-
-.shop_introduce > input {
-    position: absolute;
-    top: 80px;
-    left: 700px;
-}
-
-.shop_currency_style {
+.shop_data_district {
+    width: 270px;
+    height: 100%;
     display: inline-block;
-    line-height: normal;
     margin-left: 20px;
+    line-height: normal;
+    float: left;
+}
+
+.shop_data_district span {
+    margin: 10px 0px;
+    display: block;
+}
+
+.shop_image_district {
+    width: 150px;
+    height: 150px;
+    display: inline-block;
+}
+
+.shop_image_district img {
+    width: 100%;
+    display: inline-block;
+}
+
+.shop_delete_select {
+    float: right;
+    transform: translate(-50px, calc(170px / 2 - 50%));
 }

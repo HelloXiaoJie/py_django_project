@@ -8,7 +8,7 @@ from customDecorator.CheckTheLogin import examineLogin
 from django.views.decorators.csrf import csrf_exempt
 from publicInstrument.suffix_examine import suffix_check
 from django.conf import settings
-
+import json
 
 # Create your views here.
 # 登录页面
@@ -429,11 +429,8 @@ def add_shop_data_aip(request):
 
 # 删除用户商品api
 def delete_user_shop_api(request):
-    print(request.POST)
-    print(request.POST.get('delete_shop_list[]'))
-    print(type(request.POST.get('delete_shop_list')))
     user = UserDataModels.objects.filter(phoneNumber=request.user_datas.get('userdatas').get('phoneNumber')).first()
-    # print(UserShop.objects.filter(shopUser=user).filter(pk__in=request.POST.get('delete_shop_list')))
+    UserShop.objects.filter(shopUser=user).filter(pk__in=json.loads(request.POST.get('delete_data_list'))).delete()
     return JsonResponse({
         'code': 200,
         'datas': ''

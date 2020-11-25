@@ -460,12 +460,12 @@ $(function () {
         if (self.delete_shop_list.length === 0) {
             let Delete_the_goods = $('.Delete_the_goods');
             Delete_the_goods.removeClass('Delete_the_goods_cursor');
-            Delete_the_goods.css({'cursor': 'not-allowed'});
+            Delete_the_goods.css({'cursor': 'not-allowed', 'background-color': '#9e9e9e'});
             self.delete_submit = 0;
         } else {
             let Delete_the_goods = $('.Delete_the_goods');
             Delete_the_goods.addClass('Delete_the_goods_cursor');
-            Delete_the_goods.css({'cursor': 'pointer'});
+            Delete_the_goods.css({'cursor': 'pointer', 'background-color': '#e1251b'});
             self.delete_submit = 1;
         }
     };
@@ -473,32 +473,68 @@ $(function () {
     UserData.prototype.monitor_delete_submit = function (self) {
         $('.Delete_the_goods').click(function () {
             if (self.delete_submit) {
-                console.log(self.delete_shop_list);
-                let user_shop_datas = new FormData();
-                user_shop_datas.append('csrfmiddlewaretoken', $('input[name="csrfmiddlewaretoken"]').val())
-                user_shop_datas.append('delete_shop_list', self.delete_shop_list);
-                // $.ajax({
-                //     url: 'http://127.0.0.1:8000/user/deleteShop/',
-                //     data: user_shop_datas,
-                //     contentType: false,
-                //     dataType: "json",
-                //     type: "POST",
-                //     processData: false,
-                //     success: function (datas) {
-                //         console.log(datas);
-                //     }
-                // });
-                $.post('http://127.0.0.1:8000/user/deleteShop/', {
-                    'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
-                    'delete_shop_list': [1, 2, 3, 4, 5],
-                }, function (datas, status) {
-                    if (status === 'success') {
-                        console.log(datas);
-                    }
-                })
+                self.Generic_delete_to_confirm(self.delete_shop_list, '请确定要删除选中的商品', '删除商品', 'shop_delete', 'shop_no_delete', delete_shop_function, self)
             } else {
                 return
             }
+        })
+    };
+
+    // 删除商品函数
+    function delete_shop_function(self) {
+        let delete_data_list = JSON.stringify(self.delete_shop_list);
+        $.post('http://127.0.0.1:8000/user/deleteShop/', {
+            'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+            delete_data_list,
+        }, function (datas, status) {
+            if (status === 'success') {
+                console.log(datas);
+            }
+        })
+    }
+
+    // 删除数据 显示待删除的数据 确认删除
+    // delete_data_list_ul -> 删除的list数据
+    // title_content -> 标题内容
+    // delete_content -> 删除内容
+    // affirm_delete -> 确认删除class
+    // undelete -> 取消删除class
+    UserData.prototype.Generic_delete_to_confirm = function (delete_data_list_ul, title_content, delete_content, affirm_delete, undelete, func, self) {
+        // 找到body元素
+        let body = $('body');
+        // 创建背景板
+        let background_board = $('<div class="background_plate" style="background-color:rgba(0,0,0,.5);width:100%;height:100%;position: absolute;top: 0px;left: 0px;z-index: 100;"></div>');
+        // 删除数据信息表
+        let delete_data_information_sheet = $('' +
+            '<div style="display:block;width:800px;border-radius:5px;z-index:999;background-color:#f4f4f4;position:absolute;top:180px;left:500px;">' +
+            '<div style="display:block;font-size:30px;margin-left:auto;margin-right:auto;margin-top:30px;text-align:center;">' + title_content + '</div>' +
+            '<div style="font-size:20px;display:block;margin-top:30px;padding-left:96px;margin-bottom:10px;">' + delete_content + ':</div>' +
+            '<div style="width:450px;height:auto;display:block;margin-left:auto;margin-right:auto;" class="delete_class_data_ul"></div>' +
+            '<div style="width:630px;height:80px;display:block;margin-left:auto;margin-right:auto;line-height:80px;margin-top:50px;margin-bottom:10px;">' +
+            '<div style="width:135px;height: 50px;border-radius:5px;background-color: #a41515;cursor: pointer;text-align: center;line-height: 50px;color: white;transform: translate(46px);display: inline-block;" class="' + affirm_delete + '">确 认 删 除</div>' +
+            '<div style="width: 135px;height: 50px;border-radius: 5px;background-color: #ccc;cursor: pointer;text-align: center;line-height: 50px;transform: translate(307px);display: inline-block;" class="' + undelete + '">不，返回</div>' +
+            '</div></div>');
+        // 处理数据
+        let data_ul = $('<ul></ul>');
+        delete_data_list_ul.forEach(function (shopPk) {
+            let shop_name = $($('.shop_introduce[data-shopPk="' + shopPk + '"]').children()[0]).children()[0].innerHTML;
+            data_ul.append($('<li style="margin:10px 0px;display:list-item;text-align: -webkit-match-parent;">' + shop_name + '</li>'))
+        });
+        body.prepend(background_board);
+        body.prepend(delete_data_information_sheet);
+        delete_data_information_sheet.find('.delete_class_data_ul').append(data_ul);
+        // 确认删除
+        $('.' + affirm_delete + '').click(function () {
+            func(self);
+            delete_data_information_sheet.remove();
+            background_board.remove();
+        });
+        $('.' + undelete + '').click(function () {
+            console.log('不删除');
+            // 清除delete_data_information_sheet
+            delete_data_information_sheet.remove();
+            // 清除背景
+            background_board.remove()
         })
     };
     // 商品选中后，删除按钮可点击
@@ -512,11 +548,9 @@ $(function () {
                     self.control_delete_shop_list(self)
                 } else {
                     // 删除 删除列表 中的该商品
-                    let delete_object = self.delete_shop_list.indexOf(this.value)
-                    self.delete_shop_list.splice(delete_object, 1);
+                    self.delete_shop_list.splice(self.delete_shop_list.indexOf(this.value), 1);
                     self.control_delete_shop_list(self)
                 }
-                // console.log(self.delete_shop_list);
             });
         })
     };
