@@ -473,7 +473,7 @@ $(function () {
     UserData.prototype.monitor_delete_submit = function (self) {
         $('.Delete_the_goods').click(function () {
             if (self.delete_submit) {
-                self.Generic_delete_to_confirm(self.delete_shop_list, '请确定要删除选中的商品', '删除商品', 'shop_delete', 'shop_no_delete', delete_shop_function, self)
+                self.Generic_delete_to_confirm(self.delete_shop_list, '请确定要删除选中的商品', '删除商品', 'shop_delete', 'shop_no_delete', delete_shop_function, delete_shop_message_function, self)
             } else {
                 return
             }
@@ -492,6 +492,16 @@ $(function () {
             }
         })
     }
+    // 除去删除商品信息
+    function delete_shop_message_function(self) {
+        // 找到所有删除的信息
+        self.delete_shop_list.forEach(function (data) {
+            $('.shop_introduce[data-shopPk="'+ data +'"]').remove()
+        });
+        // 修改全部商品数量
+        let num = $('.all_the_goods span');
+        num.text(Number(num.text()) - self.delete_shop_list.length)
+    }
 
     // 删除数据 显示待删除的数据 确认删除
     // delete_data_list_ul -> 删除的list数据
@@ -499,7 +509,9 @@ $(function () {
     // delete_content -> 删除内容
     // affirm_delete -> 确认删除class
     // undelete -> 取消删除class
-    UserData.prototype.Generic_delete_to_confirm = function (delete_data_list_ul, title_content, delete_content, affirm_delete, undelete, func, self) {
+    // func -> 发送删除信息
+    // delete_shop_style_bojject -> 删除商品信息样式
+    UserData.prototype.Generic_delete_to_confirm = function (delete_data_list_ul, title_content, delete_content, affirm_delete, undelete, func, delete_shop_style_bojject ,self) {
         // 找到body元素
         let body = $('body');
         // 创建背景板
@@ -526,6 +538,7 @@ $(function () {
         // 确认删除
         $('.' + affirm_delete + '').click(function () {
             func(self);
+            delete_shop_style_bojject(self);
             delete_data_information_sheet.remove();
             background_board.remove();
         });

@@ -8,27 +8,33 @@
 {% elif user_datas.shop == 1 %}
     <div class="shop_list">
         {% if user_shop_number == 0 %}
-            {#    显示用户商品的数量#}
-            <div class="all_the_goods">全部商品 <span style="color: #e1251b">{{ user_shop_number }}</span></div>
-            <div class="shop_operation">
-                <div class="add_Merchandise"><a href="{% url 'user:addShop' %}" style="color: black;">添加商品</a></div>
+            {#    显示用户商品的数量 操作#}
+            <div class="show_shop_num_operation">
+                <div class="all_the_goods">全部商品 <span style="color: #e1251b">{{ user_shop_number }}</span></div>
+                <div class="shop_operation">
+                    <div class="add_Merchandise"><a href="{% url 'user:addShop' %}" style="color: black;">添加商品</a></div>
+                </div>
             </div>
             {#        商品#}
             <div class="not_have_shop">
                 <a href="{% url 'user:addShop' %}" style="color:black">无商品,点击添加商品</a>
             </div>
         {% elif user_shop_number > 0 %}
-            {#    显示用户商品的数量#}
-            <div class="all_the_goods">全部商品 <span style="color: #e1251b">{{ user_shop_number }}</span></div>
-            <div class="shop_operation">
-                <div class="add_Merchandise"><a href="{% url 'user:addShop' %}" style="color: black;">添加商品</a></div>
-                <div class="Delete_the_goods">删除商品</div>
+            {#            显示商品数量和商品操作#}
+            <div class="show_shop_num_operation">
+                {#    显示用户商品的数量#}
+                <div class="all_the_goods">全部商品 <span style="color: #e1251b">{{ user_shop_number }}</span></div>
+                {#                商品操作#}
+                <div class="shop_operation">
+                    <div class="add_Merchandise"><a href="{% url 'user:addShop' %}" style="color: black;">添加商品</a></div>
+                    <div class="Delete_the_goods">删除商品</div>
+                </div>
             </div>
             {% for shop in all_shop %}
                 {#                商品介绍#}
                 <div class="shop_introduce" data-shopPk="{{ shop.pk }}">
                     <div class="shop_data_district">
-                        <span >商品名称:{{ shop.shopName }}</span>
+                        <span>商品名称:{{ shop.shopName }}</span>
                         <span>商品价格:{{ shop.shopPrice }}</span>
                         <span>商品数量:{{ shop.shopQuantity }}</span>
                     </div>
