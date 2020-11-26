@@ -388,16 +388,26 @@ $(function () {
     };
     // 处理图片错误
     UserData.prototype.head_portrait_image_error = function (error) {
-        $('.shop_image_style span').text(error).css({'display': 'inline'})
+        // $('.shop_image_style span').text(error).css({'display': 'inline'})
+        let shop_image_style = $('.shop_image_style');
+        let error_span = $('<span style="color:#e1251b;position: absolute;left: 420px;display: inline-block">' + error + '</span>');
+        shop_image_style.append(error_span);
+        shop_image_style.find('span').click(function () {
+            $(this).remove()
+        })
     };
     // 检查发送的数据是否合格
     // fields_data -> 检查的字段
     // errors_content -> 错误信息
     // send -> 是否可发送
     UserData.prototype.examine_send_datas = function (fields_data, errors_content, send) {
-        let send_func = send;
         if (fields_data.val() === '') {
-            let error_span = $('<span style="color: #e1251b;margin-left: 20px">' + errors_content + '</span>');
+            send['TXD'] = false;
+            // 判断是否已经有错误显示
+            if (fields_data.siblings().length !== 0) {
+                return
+            }
+            let error_span = $('<span style="color:#e1251b;margin-left: 20px">' + errors_content + '</span>');
             fields_data.after(error_span);
             // 点击input或错误信息 错误信息隐藏
             fields_data.click(function () {
@@ -409,14 +419,35 @@ $(function () {
                 });
                 $(fields_data.siblings()[0]).remove()
             });
-            send_func = false;
         }
     };
+    // 检查发送的图片是否合格
+    UserData.prototype.examine_send_images = function (image_data, send) {
+        if (image_data === null) {
+            send['TXD'] = false;
+            let shop_image_style = $('.shop_image_style');
+            if (shop_image_style.find('span').length !== 0) {
+                return
+            }
+            let error_span = $('<span style="color:#e1251b;position: absolute;left: 420px;display: inline-block">商品图片不能为空</span>');
+            shop_image_style.append(error_span);
+            shop_image_style.find('span').click(function () {
+                $(this).remove()
+            })
+        }
+    };
+    // 显示返回数据错误
+    UserData.prototype.show_error_datas = function (shop_object_object, error) {
+        shop_object_object.parent().find('span').remove();
+        let error_html = $('<span style="color: #e1251b;margin-left: 20px">' + error + '</span>');
+        shop_object_object.after(error_html)
+    };
+
     // 发送添加商品
     UserData.prototype.send_shop_data = function (self) {
         $('.submit_style').click(function () {
             // 是否可以发送数据
-            let TXD = true;
+            let TXD = {TXD: true};
             // 检查商品名称是否为空
             let shop_name = $('input[name="shopName"]');
             let shop_shopPrice = $('input[name="shopPrice"]');
@@ -425,13 +456,14 @@ $(function () {
             self.examine_send_datas(shop_shopPrice, '这个字段是必填项', TXD);
             self.examine_send_datas(shop_quantity, '这个字段是必填项', TXD);
             let shop_image = self.image_file;
+            self.examine_send_images(self.image_file, TXD);
             let shop_datas = new FormData();
-            shop_datas.append('shopName', shop_name);
-            shop_datas.append('shopPrice', shop_shopPrice);
-            shop_datas.append('shopQuantity', shop_quantity);
+            shop_datas.append('shopName', shop_name.val());
+            shop_datas.append('shopPrice', shop_shopPrice.val());
+            shop_datas.append('shopQuantity', shop_quantity.val());
             shop_datas.append('shopImage', shop_image);
             shop_datas.append('csrfmiddlewaretoken', $('input[name="csrfmiddlewaretoken"]').val());
-            if (!TXD) {
+            if (!TXD['TXD']) {
                 return
             }
             $.ajax({
@@ -447,28 +479,18 @@ $(function () {
                         location.replace('/user/myShop/');
                         return
                     }
-                    console.log(datas.datas);
-                    if (datas.datas['shopImage']) {
-                        let shop_object = $('input[name="shopName"]');
-                        shop_object.parent().find('span').remove();
-                        let error_html = $('<span style="color: #e1251b;margin-left: 20px">' + datas.datas['shopImage'][0]['message'] + '</span>');
-                        shop_object.after(error_html)
+                    if (datas.datas['shopName']) {
+                        self.show_error_datas($('input[name="shopName"]'), datas.datas['shopName'][0]['message'])
                     }
                     if (datas.datas['shopPrice']) {
-                        let shop_object = $('input[name="shopPrice"]');
-                        shop_object.parent().find('span').remove();
-                        let error_html = $('<span style="color: #e1251b;margin-left: 20px">' + datas.datas['shopPrice'][0]['message'] + '</span>');
-                        shop_object.after(error_html)
+                        self.show_error_datas($('input[name="shopPrice"]'), datas.datas['shopPrice'][0]['message'])
                     }
                     if (datas.datas['shopQuantity']) {
-                        let shop_object = $('input[name="shopQuantity"]');
-                        shop_object.parent().find('span').remove();
-                        let error_html = $('<span style="color: #e1251b;margin-left: 20px">' + datas.datas['shopQuantity'][0]['message'] + '</span>');
-                        shop_object.after(error_html)
+                        self.show_error_datas($('input[name="shopQuantity"]'), datas.datas['shopQuantity'][0]['message'])
                     }
                     if (datas.datas['shopImage']) {
-                        console.log(datas.datas['shopImage']);
-                        $('.shop_image_style span').text(datas.datas['shopQuantity'][0]['message']).css({'display': 'inline-block'});
+
+                        $('.shop_image_style span').text(datas.datas['shopImage'][0]['message']).css({'display': 'inline-block'});
                     }
                 }
             })

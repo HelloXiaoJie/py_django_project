@@ -421,6 +421,7 @@ def add_shop_data_aip(request):
             'datas': ''
         })
     else:
+        print(datas.errors.get_json_data())
         return JsonResponse({
             'code': 400,
             'datas': datas.errors.get_json_data()
