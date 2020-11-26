@@ -390,12 +390,40 @@ $(function () {
     UserData.prototype.head_portrait_image_error = function (error) {
         $('.shop_image_style span').text(error).css({'display': 'inline'})
     };
+    // 检查发送的数据是否合格
+    // fields_data -> 检查的字段
+    // errors_content -> 错误信息
+    // send -> 是否可发送
+    UserData.prototype.examine_send_datas = function (fields_data, errors_content, send) {
+        let send_func = send;
+        if (fields_data.val() === '') {
+            let error_span = $('<span style="color: #e1251b;margin-left: 20px">' + errors_content + '</span>');
+            fields_data.after(error_span);
+            // 点击input或错误信息 错误信息隐藏
+            fields_data.click(function () {
+                if (fields_data.siblings().length === 0) {
+                    return
+                }
+                $(fields_data.siblings()[0]).click(function () {
+                    $(this).remove()
+                });
+                $(fields_data.siblings()[0]).remove()
+            });
+            send_func = false;
+        }
+    };
     // 发送添加商品
     UserData.prototype.send_shop_data = function (self) {
         $('.submit_style').click(function () {
-            let shop_name = $('input[name="shopName"]').val();
-            let shop_shopPrice = $('input[name="shopPrice"]').val();
-            let shop_quantity = $('input[name="shopQuantity"]').val();
+            // 是否可以发送数据
+            let TXD = true;
+            // 检查商品名称是否为空
+            let shop_name = $('input[name="shopName"]');
+            let shop_shopPrice = $('input[name="shopPrice"]');
+            let shop_quantity = $('input[name="shopQuantity"]');
+            self.examine_send_datas(shop_name, '这个字段是必填项', TXD);
+            self.examine_send_datas(shop_shopPrice, '这个字段是必填项', TXD);
+            self.examine_send_datas(shop_quantity, '这个字段是必填项', TXD);
             let shop_image = self.image_file;
             let shop_datas = new FormData();
             shop_datas.append('shopName', shop_name);
@@ -403,6 +431,9 @@ $(function () {
             shop_datas.append('shopQuantity', shop_quantity);
             shop_datas.append('shopImage', shop_image);
             shop_datas.append('csrfmiddlewaretoken', $('input[name="csrfmiddlewaretoken"]').val());
+            if (!TXD) {
+                return
+            }
             $.ajax({
                 url: 'http://127.0.0.1:8000/user/addShopApi/',
                 type: 'post',
@@ -492,11 +523,12 @@ $(function () {
             }
         })
     }
+
     // 除去删除商品信息
     function delete_shop_message_function(self) {
         // 找到所有删除的信息
         self.delete_shop_list.forEach(function (data) {
-            $('.shop_introduce[data-shopPk="'+ data +'"]').remove()
+            $('.shop_introduce[data-shopPk="' + data + '"]').remove()
         });
         // 修改全部商品数量
         let num = $('.all_the_goods span');
@@ -511,7 +543,7 @@ $(function () {
     // undelete -> 取消删除class
     // func -> 发送删除信息
     // delete_shop_style_bojject -> 删除商品信息样式
-    UserData.prototype.Generic_delete_to_confirm = function (delete_data_list_ul, title_content, delete_content, affirm_delete, undelete, func, delete_shop_style_bojject ,self) {
+    UserData.prototype.Generic_delete_to_confirm = function (delete_data_list_ul, title_content, delete_content, affirm_delete, undelete, func, delete_shop_style_bojject, self) {
         // 找到body元素
         let body = $('body');
         // 创建背景板
