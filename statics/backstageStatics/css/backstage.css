@@ -227,13 +227,14 @@ a {
     width: 100%;
     height: 200px;
     /*border: 1px solid;*/
+    line-height: 200px;
 }
 
 .user_personage_data_signatureText > div {
     width: 200px;
     display: inline-block;
     padding-left: 20px;
-    transform: translate(0px, calc(100px - 50%));
+    line-height: normal;
 }
 
 .user_personage_data_signatureText > textarea {
@@ -246,29 +247,42 @@ a {
     font-size: 15px;
     outline: none;
     resize: none;
-    position: absolute;
-    top: 324px;
-    left: 225px;
+    line-height: normal;
+    float: right;
+    margin-right: 55px;
 }
 
 .user_personage_data_portraitImage {
     height: 200px;
     position: relative;
     /*border: 1px solid;*/
+    line-height: 200px;
 }
 
 .user_personage_data_portraitImage > div:nth-child(1) {
-    width: 200px;
+    /*width: 200px;*/
     display: inline-block;
     padding-left: 20px;
-    transform: translate(0px, calc(100px - 50%));
+    line-height: normal;
+    height: 50px;
+    /*transform: translate(0px, calc(100px - 50%));*/
+    /*float: left;*/
 }
 
-.user_personage_data_portraitImage > div:nth-child(2) {
+.user_data_image {
     width: 150px;
-    display: block;
-    transform: translate(230px);
+    height: 150px;
+    display: inline-block;
+    /*margin-left: 230px;*/
+    /*line-height: normal;*/
+    /*transform: translate(230px, calc(200px /2 - 50%));*/
 }
+/*.user_data_image img {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    display: inline-block;*/
+/*    line-height: normal;*/
+/*}*/
 
 .user_personage_data_file_portraitImage {
     width: 150px;

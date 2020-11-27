@@ -489,8 +489,12 @@ $(function () {
                         self.show_error_datas($('input[name="shopQuantity"]'), datas.datas['shopQuantity'][0]['message'])
                     }
                     if (datas.datas['shopImage']) {
-
-                        $('.shop_image_style span').text(datas.datas['shopImage'][0]['message']).css({'display': 'inline-block'});
+                        // 创建span标签
+                        let span_error = $('<span style="color:#e1251b;position: absolute;left: 420px;display: inline-block">' + datas.datas['shopImage'][0].message + '</span>');
+                        $('.shop_image_style').append(span_error);
+                        span_error.click(function () {
+                            $(this).remove()
+                        })
                     }
                 }
             })
