@@ -1,20 +1,20 @@
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, JsonResponse
-from UserData.models import UserDataModels, UserDataModelsContext
+from UserData.models import UserDataModels, UserDataModelsContext, UserShop
 from django.template.context_processors import csrf
 from . import forms
 
 
 # 后台页面 首页
 def backstage_page(request):
-    return render(request, 'backstage_index/backstage_index.html')
+    return render(request, 'backstage_index/backstage_index.html', context={'page': 0})
 
 
 # 后台页面 用户数据
 def backstage_page_user_data(request):
     # 用户数据
     userdatas = UserDataModels.objects.all()
-    return render(request, 'backstage_index/backstage_UserData.html', context={'userdata': userdatas})
+    return render(request, 'backstage_index/backstage_UserData.html', context={'userdata': userdatas, 'page': 1})
 
 
 # 点击用户数据后返回数据
@@ -22,7 +22,7 @@ def User_data_api(request, user_pk):
     user_data = UserDataModels.objects.filter(pk=user_pk).first()
     user_data_content = UserDataModelsContext.objects.filter(UserObject=user_data).first()
     return render(request, 'backstage_index/backstage_user_data_api.html',
-                  context={'data': user_data, 'data_content': user_data_content})
+                  context={'data': user_data, 'data_content': user_data_content, 'page': 1})
 
 
 def Delete_user_data_api(request):
@@ -45,7 +45,10 @@ def Delete_user_data_api(request):
 
 
 def add_user(request):
-    return render(request, 'backstage_index/backstage_add_user.html', context=csrf(request))
+    context = {}
+    context.update(csrf(request))
+    context.update({'page': 1})
+    return render(request, 'backstage_index/backstage_add_user.html', context=context)
 
 
 # 添加用户api
@@ -202,3 +205,45 @@ def user_data_modification_examine(request):
             'code': 400,
             'datas': amend_user_data_errors
         })
+
+
+# 管理员开启商店或关闭商店
+def admin_open_or_close_shop(request):
+    # 获取用户序号
+    userPk = request.POST.get('userPk', None)
+    if not userPk:
+        return JsonResponse({
+            'code': 400,
+            'datas': '错误'
+        })
+    user_data = UserDataModels.objects.filter(pk=userPk)
+    if not user_data.exists():
+        return JsonResponse({
+            'code': 400,
+            'datas': '用户不存在'
+        })
+    print(user_data)
+    if user_data.first().shop == 1:
+        # 关闭商店
+        user_data.update(shop=0)
+        return JsonResponse({
+            'code': 200,
+            'datas': {
+                'shop_status': 0
+            }
+        })
+    else:
+        # 开启商店
+        user_data.update(shop=1)
+        return JsonResponse({
+            'code': 200,
+            'datas': {
+                'shop_status': 1
+            }
+        })
+
+
+def Display_all_items(request):
+    # 获取所有商品
+    all_shop = UserShop.objects.all().values('shopName', 'shopPrice', 'shopQuantity', 'monthlySales', 'salesQuantity')
+    return render(request, 'backstage_index/Display_all_items.html', context={'page': 2, 'allShop': all_shop})

@@ -14,12 +14,15 @@
     width: 180px;
     height: 550px;
     border: 1px solid #e0e0e0;
-    margin-top: 20px;
-    margin-left: 20px;
+    /*margin-top: 20px;*/
+    /*margin-left: 20px;*/
     border-radius: 5px;
     display: inline-block;
     background-color: #ffffff;
-    float: left;
+    /*float: left;*/
+    position: absolute;
+    top: 70px;
+    left: 180px;
 }
 
 .UserBody .contentBody .messagedatas {

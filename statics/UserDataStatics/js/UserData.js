@@ -459,8 +459,8 @@ $(function () {
             self.examine_send_images(self.image_file, TXD);
             let shop_datas = new FormData();
             shop_datas.append('shopName', shop_name.val());
-            shop_datas.append('shopPrice', shop_shopPrice.val());
-            shop_datas.append('shopQuantity', shop_quantity.val());
+            shop_datas.append('shopPrice', Number(shop_shopPrice.val()));
+            shop_datas.append('shopQuantity', Number(shop_quantity.val()));
             shop_datas.append('shopImage', shop_image);
             shop_datas.append('csrfmiddlewaretoken', $('input[name="csrfmiddlewaretoken"]').val());
             if (!TXD['TXD']) {
@@ -625,6 +625,18 @@ $(function () {
             });
         })
     };
+    // 账号设置 超出预订范围，固定位置
+    UserData.prototype.rigidity = function () {
+        console.log(window.innerHeight);
+        $(window).scroll(function () {
+            if (document.documentElement.scrollTop >= 70) {
+                // 当前位置
+                $('.selectMessage').css({'top': '' + document.documentElement.scrollTop + 'px'})
+            } else if (document.documentElement.scrollTop < 70) {
+                $('.selectMessage').css({'top': '70px'})
+            }
+        })
+    };
     const userdatamethods = new UserData();
     UserData.prototype.run = function () {
         const self = this;
@@ -644,6 +656,7 @@ $(function () {
         self.shop_error_hide();
         self.shop_checkbox_delete(self);
         self.monitor_delete_submit(self);
+        self.rigidity();
     };
     userdatamethods.run()
 });

@@ -126,6 +126,6 @@ class UserImage(forms.Form):
 
 class add_Shop_data(forms.Form):
     shopName = forms.CharField()
-    shopPrice = forms.CharField(validators=(validators.RegexValidator(regex='[0-9]', message='非数字'),))
-    shopQuantity = forms.CharField(validators=(validators.RegexValidator(regex='[0-9]', message='非数字'),))
+    shopPrice = forms.CharField(validators=(validators.RegexValidator(regex='^[0-9]+$', message='非数字'),))
+    shopQuantity = forms.CharField(validators=(validators.RegexValidator(regex='^[0-9]+$', message='非数字'),))
     shopImage = forms.ImageField(error_messages={'required': '缺少商品图片', 'empty': '文件类型错误'})

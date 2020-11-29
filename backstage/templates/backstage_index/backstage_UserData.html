@@ -19,9 +19,7 @@
             删除对象:
         </div>
         <div class="delete_class_data">
-            <ul>
-
-            </ul>
+            <ul></ul>
         </div>
         {#            操作#}
         <div class="operation">
@@ -29,34 +27,7 @@
             <div class="no_delete">不，返回</div>
         </div>
     </div>
-    <div class="left_page">
-        {#    管理员信息#}
-        <div class="Administrator_message">
-            {#        头像#}
-            <div class="head_portrait">
-                <img src="{{ MEDIA_URL }}UserPortrait/75994211_p0.jpg" alt="" width="100" height="100">
-            </div>
-            {#        问候语#}
-            <div class="greetings">
-                早安，打工人
-            </div>
-        </div>
-        {#    选择信息管理#}
-        <dic class="select_message_Management">
-            <ul>
-                <li style="background-color: #888888;">用户数据</li>
-                <li>hello</li>
-                <li>hello</li>
-                <li>hello</li>
-                <li>hello</li>
-            </ul>
-        </dic>
-
-        {#    退出管理#}
-        <div class="quit_Management">
-            退出管理
-        </div>
-    </div>
+    {% include 'page_base/left_navigation_bar.html' %}
 {% endblock %}
 
 {% block right_label %}

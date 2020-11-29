@@ -395,7 +395,32 @@ $(function () {
             });
         })
     };
+    // 点击开启或关闭商店
+    BackstageUserData.prototype.click_open_or_close = function () {
+        $('.custom_button').click(function () {
+            // 用户序号
+            let userPk = $('input[name="user_pk"]').val();
+            let csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
+            $.post('/backstageUserData/AdminShop/', {
+                'userPk': userPk,
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+            }, function (datas, status) {
+                if (status === 'success') {
+                    if (datas.code === 200) {
+                        if (datas.datas.shop_status === 1) {
+                            // 需要开启商店
+                            $('.the_switch_square').css({'left': '0px'})
+                        } else if (datas.datas.shop_status === 0) {
+                            // 关闭商店
+                            $('.the_switch_square').css({'left': '-74px'})
+                        }
+                    } else if (datas.code === 400) {
 
+                    }
+                }
+            })
+        })
+    };
     BackstageUserData.prototype.run = function () {
         let self = this;
         self.data_operation(self);
@@ -408,6 +433,7 @@ $(function () {
         self.user_data_modification(self);
         self.change_user_idiograph(self);
         self.delete_user_data(self);
+        self.click_open_or_close()
     };
     const backstageUserData_Method = new BackstageUserData();
     backstageUserData_Method.run()

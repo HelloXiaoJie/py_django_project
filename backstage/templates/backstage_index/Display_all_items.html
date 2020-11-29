@@ -1,0 +1,29 @@
+{% extends 'page_base/backstage_index_base.html' %}
+{% load static %}
+{% load customFilter %}
+
+{% block external_file %}
+    <link href="{% static 'backstageStatics/css/backstage.css' %}" type="text/css" rel="stylesheet">
+    <script src="{% static 'publicfiles/js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'backstageStatics/js/backstage.js' %}"></script>
+{% endblock %}
+
+{% block right_label %}
+    {% include 'page_base/left_navigation_bar.html' %}
+{% endblock %}
+
+{% block left_label %}
+    {#    显示所有商品#}
+    {#    商品显示区域#}
+    <div class="commodity_display_area">
+        {% for shop in allShop %}
+            <a href="#">
+                <span style="width: 300px;text-indent: 20px">商品名称:{{ shop.shopName|limitationOfLength:12 }}</span>
+                <span>商品价格:{{ shop.shopPrice|limitationOfLength:7 }}</span>
+                <span>商品数量:{{ shop.shopQuantity|limitationOfLength:7 }}</span>
+                <span>月销售量:{{ shop.monthlySales|limitationOfLength:7 }}</span>
+                <span>收藏数量:{{ shop.salesQuantity|limitationOfLength:7 }}</span>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -9,4 +9,6 @@ urlpatterns = [
     path('backstageUserData/adduser/', views.add_user, name="adduser"),  # 添加用户页面
     path('backstageUserData/adduserApi/', views.app_user_api, ),  # 添加用户api
     path('backstageUserData/modificationuserApi/', views.user_data_modification_examine, ),  # 修改用户资料
+    path('backstageUserData/AdminShop/', views.admin_open_or_close_shop, ),  # 管理员管理商店
+    path('backstageUserData/ShowAllShop/', views.Display_all_items, name='showAllShop'),  # 显示所有商店
 ]
