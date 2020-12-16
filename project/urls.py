@@ -23,5 +23,6 @@ urlpatterns = [
     path('', include('index.urls')),
     path('', include('UserData.urls')),
     re_path('media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-    path('', include('backstage.urls'))
+    path('', include('backstage.urls')),
+    re_path(r'^statics/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}, ),
 ]
