@@ -97,7 +97,6 @@ $(function () {
             $('.errortex').addClass('hoid')
         })
     };
-
     // ajax请求登录
     Overturn.prototype.loginAjax = function (self) {
         let loginKey = $('.loginKey');
@@ -106,7 +105,7 @@ $(function () {
             let password = $('.password input[name="loginPassword"]');
             let csrf_token = $('input[name="csrfmiddlewaretoken"]');
             let voluntarilyLogin = $('.voluntarilyLogin input[name="voluntarilyLogin"]');
-            $.post('http://127.0.0.1:8000/user/login/', {
+            $.post("http://" + location.host + "/user/login/", {
                 "phonenumber": phoneNumber.val(),
                 "password": password.val(),
                 "voluntarilyLogin": voluntarilyLogin[0].checked,
