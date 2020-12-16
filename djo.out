@@ -1,0 +1,21 @@
+[16/Dec/2020 06:42:28] "GET /index/ HTTP/1.1" 200 5380
+[16/Dec/2020 06:42:29] "GET /statics/publicfiles/images/20201004123735580_easyicon_net_16.ico HTTP/1.1" 200 1150
+[16/Dec/2020 06:42:42] "GET /index/ HTTP/1.1" 200 5380
+[16/Dec/2020 06:42:42] "GET /statics/publicfiles/images/20201004123735580_easyicon_net_16.ico HTTP/1.1" 200 1150
+[16/Dec/2020 06:42:43] "GET /user/ HTTP/1.1" 200 3302
+[16/Dec/2020 06:42:53] "GET /index/ HTTP/1.1" 200 5380
+[16/Dec/2020 07:23:44] "GET /index/ HTTP/1.1" 200 5380
+[16/Dec/2020 07:23:44] "GET /statics/publicfiles/images/20201004123735580_easyicon_net_16.ico HTTP/1.1" 200 1150
+[16/Dec/2020 07:23:44] "GET /statics/indexStatics/images/%E6%90%9C%E7%B4%A2%20(1).png HTTP/1.1" 200 1201
+[16/Dec/2020 07:57:46] "GET / HTTP/1.1" 404 74
+[16/Dec/2020 08:16:41] "GET / HTTP/1.1" 404 74
+[16/Dec/2020 08:25:09] "GET / HTTP/1.0" 400 26
+[16/Dec/2020 08:28:54] "GET / HTTP/1.1" 404 74
+[16/Dec/2020 09:02:52] "GET / HTTP/1.0" 400 26
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 16, 2020 - 06:42:26
+Django version 2.0, using settings 'project.settings'
+Starting development server at http://0.0.0.0:80/
+Quit the server with CONTROL-C.

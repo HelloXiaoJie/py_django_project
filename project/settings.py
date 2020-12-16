@@ -22,8 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9j@-0pz!0p!p3k5v0&gp@v-9!i0yre%@uq4e#_&*w-%4oee15e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
+# DEBUG = True
 DEBUG = False
 
+# ALLOWED_HOSTS = ["8.135.19.227"]
 ALLOWED_HOSTS = ["*"]
 
 # Application definition
@@ -44,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -79,16 +82,29 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# django部署数据库配
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'py_django_project_database',
+        'NAME': 'django_database',
         'PORT': 3306,
         'HOST': 'localhost',
-        'PASSWORD': 'root',
+        'PASSWORD': 'mysql19980306',
         'USER': 'root'
     }
 }
+
+# django本地开发配置
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'py_django_project_database',
+#         'PORT': 3306,
+#         'HOST': 'localhost',
+#         'PASSWORD': 'root',
+#         'USER': 'root'
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -133,7 +149,7 @@ USE_TZ = True
 
 STATIC_URL = '/statics/'
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'statics')]
-STATIC_ROOT = os.path.join(BASE_DIR, "statics")
+STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
