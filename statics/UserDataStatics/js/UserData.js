@@ -81,7 +81,7 @@ $(function () {
         let newEmail = $('.generalFormat input[name="newEmail"]');
         let csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]');
         $('.Email').click(function () {
-            $.post('http://127.0.0.1:8000/user/emailModification/', {
+            $.post('http://' + location.host + '/user/emailModification/', {
                 'oldEmail': oldEmail.val(),
                 'newEmail': newEmail.val(),
                 'csrfmiddlewaretoken': csrfmiddlewaretoken.val()
@@ -115,7 +115,7 @@ $(function () {
         $('.Email1').click(function () {
             let newEmail1 = $('input[name="newEmail1"]');
             let csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]');
-            $.post('http://127.0.0.1:8000/user/newEmail/', {
+            $.post('http://' + location.host + '/user/newEmail/', {
                 'newEmail1': newEmail1.val(),
                 'csrfmiddlewaretoken': csrfmiddlewaretoken.val()
             }, function (datas, struct) {
@@ -136,7 +136,7 @@ $(function () {
         let newPhoneNumber = $('.generalFormat input[name="newPhoneNumber"]');
         let csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]');
         $('.PhoneNumber').click(function () {
-            $.post('http://127.0.0.1:8000/user/phonenumberModification/', {
+            $.post('http://' + location.host + '/user/phonenumberModification/', {
                 'oldPhoneNumber': oldPhoneNumber.val(),
                 'newPhoneNumber': newPhoneNumber.val(),
                 'csrfmiddlewaretoken': csrfmiddlewaretoken.val()
@@ -169,7 +169,7 @@ $(function () {
         let newPassword2 = $('input[name="newPassword2"]');
         let csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]');
         $('.Password').click(function () {
-            $.post('http://127.0.0.1:8000/user/passwordModification/', {
+            $.post('http://' + location.host + '/user/passwordModification/', {
                 'oldPassword': oldPassword.val(),
                 'newPassword1': newPassword1.val(),
                 'newPassword2': newPassword2.val(),
@@ -227,7 +227,7 @@ $(function () {
             let name = $('input[name="modificationBorder_nickname"]');
             let content = $('.personalizedContext textarea');
             let csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]');
-            $.post('http://127.0.0.1:8000/user/modificationUserNameContent/', {
+            $.post('http://' + location.host + '/user/modificationUserNameContent/', {
                 'modificationBorder_nickname': name.val(),
                 'personalizedContext': content.val(),
                 'csrfmiddlewaretoken': csrfmiddlewaretoken.val()
@@ -269,7 +269,7 @@ $(function () {
         $('.Info').click(function () {
             let content = $('.personalizedContext textarea');
             let csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]');
-            $.post('http://127.0.0.1:8000/user/modificationUserSignatureText/', {
+            $.post('http://' + location.host + '/user/modificationUserSignatureText/', {
                 'modificationBorder_nickname': content.val(),
                 'csrfmiddlewaretoken': csrfmiddlewaretoken.val()
             }, function (datas, status) {
@@ -321,7 +321,7 @@ $(function () {
             } else {
                 return
             }
-            $.post('http://127.0.0.1:8000/user/addShopJurisdiction/', {
+            $.post('http://' + location.host + '/user/addShopJurisdiction/', {
                 'openShop': 1,
                 'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
             }, function (datas, status) {
@@ -467,7 +467,7 @@ $(function () {
                 return
             }
             $.ajax({
-                url: 'http://127.0.0.1:8000/user/addShopApi/',
+                url: 'http://' + location.host + '/user/addShopApi/',
                 type: 'post',
                 contentType: false,
                 data: shop_datas,
@@ -540,7 +540,7 @@ $(function () {
     // 删除商品函数
     function delete_shop_function(self) {
         let delete_data_list = JSON.stringify(self.delete_shop_list);
-        $.post('http://127.0.0.1:8000/user/deleteShop/', {
+        $.post('http://' + location.host + '/user/deleteShop/', {
             'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
             delete_data_list,
         }, function (datas, status) {

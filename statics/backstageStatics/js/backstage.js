@@ -89,7 +89,7 @@ $(function () {
     // 执行 删除所选的数据
     BackstageUserData.prototype.delete_selected_data = function (data_list) {
         // 将删除的数据使用ajax发送到后台进行处理
-        $.post('http://127.0.0.1:8000/backstageUserData/deleteUser/', {
+        $.post('http://' + location.host + '/backstageUserData/deleteUser/', {
             data_list,
             'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
         }, function (datas, status) {
@@ -173,7 +173,7 @@ $(function () {
                 user_datas.append('csrfmiddlewaretoken', csrf_token.val());
             }
             $.ajax({
-                url: 'http://127.0.0.1:8000/backstageUserData/adduserApi/',
+                url: 'http://' + location.host + '/backstageUserData/adduserApi/',
                 type: 'post',
                 data: user_datas,
                 processData: false,
@@ -373,7 +373,7 @@ $(function () {
             let li = $('<li>username:<div class="username">' + name + '</div>phone:<div class="userphone">' + phone + '</div></li>')
             delete_class_data.append(li);
             $('.delete').click(function () {
-                $.post('http://127.0.0.1:8000/backstageUserData/deleteUser/',
+                $.post('http://' + location.host + '/backstageUserData/deleteUser/',
                     {
                         data_list,
                         'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()

@@ -38,7 +38,7 @@ $(function () {
         // 获取cookie
         registerSubmit.click(function () {
             // 使用ajax请求数据
-            $.post('http://127.0.0.1:8000/user/register/', {
+            $.post('http://' + location.host +'/user/register/', {
                 "username": username.val(),
                 "phonenumber": phonenumber.val(),
                 "password1": password1.val(),
