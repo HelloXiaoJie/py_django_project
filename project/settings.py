@@ -23,11 +23,16 @@ SECRET_KEY = '9j@-0pz!0p!p3k5v0&gp@v-9!i0yre%@uq4e#_&*w-%4oee15e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-# DEBUG = True
-DEBUG = False
-
-ALLOWED_HOSTS = ["8.135.19.227"]
+DEBUG = True
+# DEBUG = False
+#
+# ALLOWED_HOSTS = ["8.135.19.227"]
 # ALLOWED_HOSTS = ["*"]
+
+if DEBUG:
+    ALLOWED_HOSTS = ["*"]
+else:
+    ALLOWED_HOSTS = ["8.135.19.227"]
 
 # Application definition
 
@@ -83,16 +88,16 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 # django部署数据库配
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_database',
-        'PORT': 3306,
-        'HOST': 'localhost',
-        'PASSWORD': 'mysql19980306',
-        'USER': 'root'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'django_database',
+#         'PORT': 3306,
+#         'HOST': 'localhost',
+#         'PASSWORD': 'mysql19980306',
+#         'USER': 'root'
+#     }
+# }
 
 # django本地开发配置
 # DATABASES = {
@@ -105,6 +110,30 @@ DATABASES = {
 #         'USER': 'root'
 #     }
 # }
+
+if DEBUG:
+    # django本地开发配置
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'py_django_project_database',
+            'PORT': 3306,
+            'HOST': 'localhost',
+            'PASSWORD': 'root',
+            'USER': 'root'
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'django_database',
+            'PORT': 3306,
+            'HOST': 'localhost',
+            'PASSWORD': 'mysql19980306',
+            'USER': 'root'
+        }
+    }
 
 # DATABASES = {
 #     'default': {
@@ -149,7 +178,11 @@ USE_TZ = True
 
 STATIC_URL = '/statics/'
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'statics')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'statics')]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
